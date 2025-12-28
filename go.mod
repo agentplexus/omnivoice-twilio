@@ -6,5 +6,3 @@ require (
 	github.com/agentplexus/omnivoice v0.1.0
 	github.com/gorilla/websocket v1.5.3
 )
-
-replace github.com/agentplexus/omnivoice => ../omnivoice

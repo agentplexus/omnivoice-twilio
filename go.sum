@@ -1,2 +1,4 @@
+github.com/agentplexus/omnivoice v0.1.0 h1:0CBwBaCcLFxq1wWgposm8E4mtSoNrQK71Q94bwMKto8=
+github.com/agentplexus/omnivoice v0.1.0/go.mod h1:LfxHfgrgrBg5isbaggYMpnwkN+zrCD1ziQA6StOMvkQ=
 github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
 github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
