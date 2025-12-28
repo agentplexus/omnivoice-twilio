@@ -78,22 +78,22 @@ func (c *Client) AccountSID() string {
 
 // Call represents a Twilio call resource.
 type Call struct {
-	SID             string `json:"sid"`
-	AccountSID      string `json:"account_sid"`
-	To              string `json:"to"`
-	From            string `json:"from"`
-	Status          string `json:"status"`
-	Direction       string `json:"direction"`
-	Duration        string `json:"duration"`
-	StartTime       string `json:"start_time"`
-	EndTime         string `json:"end_time"`
-	Price           string `json:"price"`
-	PriceUnit       string `json:"price_unit"`
-	AnsweredBy      string `json:"answered_by"`
-	CallerName      string `json:"caller_name"`
-	URI             string `json:"uri"`
-	DateCreated     string `json:"date_created"`
-	DateUpdated     string `json:"date_updated"`
+	SID         string `json:"sid"`
+	AccountSID  string `json:"account_sid"`
+	To          string `json:"to"`
+	From        string `json:"from"`
+	Status      string `json:"status"`
+	Direction   string `json:"direction"`
+	Duration    string `json:"duration"`
+	StartTime   string `json:"start_time"`
+	EndTime     string `json:"end_time"`
+	Price       string `json:"price"`
+	PriceUnit   string `json:"price_unit"`
+	AnsweredBy  string `json:"answered_by"`
+	CallerName  string `json:"caller_name"`
+	URI         string `json:"uri"`
+	DateCreated string `json:"date_created"`
+	DateUpdated string `json:"date_updated"`
 }
 
 // MakeCallParams are parameters for making a call.

@@ -258,13 +258,13 @@ func (c *Connection) RemoteAddr() net.Addr {
 
 // Twilio Media Streams message types.
 type mediaMessage struct {
-	Event     string          `json:"event"`
-	StreamSID string          `json:"streamSid,omitempty"`
-	Start     *startMessage   `json:"start,omitempty"`
-	Media     *mediaPayload   `json:"media,omitempty"`
-	Mark      *markMessage    `json:"mark,omitempty"`
-	Stop      *stopMessage    `json:"stop,omitempty"`
-	DTMF      *dtmfMessage    `json:"dtmf,omitempty"`
+	Event     string        `json:"event"`
+	StreamSID string        `json:"streamSid,omitempty"`
+	Start     *startMessage `json:"start,omitempty"`
+	Media     *mediaPayload `json:"media,omitempty"`
+	Mark      *markMessage  `json:"mark,omitempty"`
+	Stop      *stopMessage  `json:"stop,omitempty"`
+	DTMF      *dtmfMessage  `json:"dtmf,omitempty"`
 }
 
 type startMessage struct {

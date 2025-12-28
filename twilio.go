@@ -59,12 +59,12 @@ const (
 
 // TwiML voice options.
 const (
-	VoiceAlice   = "alice"   // Twilio's default voice
-	VoiceMan     = "man"     // Male voice
-	VoiceWoman   = "woman"   // Female voice
-	VoicePolly   = "Polly."  // Amazon Polly prefix (e.g., "Polly.Joanna")
-	VoiceGoogle  = "Google." // Google TTS prefix (e.g., "Google.en-US-Standard-A")
-	VoiceAmazon  = "Amazon." // Amazon prefix
+	VoiceAlice  = "alice"   // Twilio's default voice
+	VoiceMan    = "man"     // Male voice
+	VoiceWoman  = "woman"   // Female voice
+	VoicePolly  = "Polly."  // Amazon Polly prefix (e.g., "Polly.Joanna")
+	VoiceGoogle = "Google." // Google TTS prefix (e.g., "Google.en-US-Standard-A")
+	VoiceAmazon = "Amazon." // Amazon prefix
 )
 
 // Call status constants.
