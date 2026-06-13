@@ -158,7 +158,7 @@ func (s *Session) Close() error {
 
 		// Close connection
 		if s.conn != nil {
-			_ = s.conn.close()
+			s.conn.close()
 		}
 
 		// Remove from gateway

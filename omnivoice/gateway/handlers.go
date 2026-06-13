@@ -80,6 +80,7 @@ func (g *Gateway) handleInboundCall(w http.ResponseWriter, r *http.Request) {
 </Response>`, wsURL, callSID, from, to)
 
 	w.Header().Set("Content-Type", "application/xml")
+	//nolint:gosec // G705: TwiML response generated from code, not user input
 	if _, err := w.Write([]byte(twiml)); err != nil {
 		g.logger.Error("failed to write TwiML response", "error", err, "call_sid", callSID)
 	}
@@ -138,8 +139,8 @@ func (g *Gateway) handleMediaStream(w http.ResponseWriter, r *http.Request) {
 		wsConn:        wsConn,
 		gateway:       g,
 		events:        make(chan Event, 100),
-		audioIn:       make(chan []byte, 250),  // ~5 sec input buffer
-		audioOut:      make(chan []byte, 500),  // ~10 sec output buffer
+		audioIn:       make(chan []byte, 250), // ~5 sec input buffer
+		audioOut:      make(chan []byte, 500), // ~10 sec output buffer
 		done:          make(chan struct{}),
 		sessionReady:  make(chan struct{}),
 		pipelineReady: make(chan struct{}),

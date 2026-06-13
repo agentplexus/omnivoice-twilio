@@ -229,6 +229,8 @@ func (c *mediaStreamConn) sendAudio(audio []byte) error {
 }
 
 // sendMark sends a mark message for synchronization.
+//
+//nolint:unused // Reserved for barge-in detection and audio sync
 func (c *mediaStreamConn) sendMark(name string) error {
 	c.mu.RLock()
 	streamSID := c.streamSID
@@ -268,7 +270,7 @@ func (c *mediaStreamConn) clear() error {
 }
 
 // close closes the connection.
-func (c *mediaStreamConn) close() error {
+func (c *mediaStreamConn) close() {
 	c.closeOnce.Do(func() {
 		c.mu.Lock()
 		c.closed = true
@@ -279,7 +281,6 @@ func (c *mediaStreamConn) close() error {
 		close(c.audioOut)
 		_ = c.wsConn.Close()
 	})
-	return nil
 }
 
 // AudioIn returns the channel for receiving audio from Twilio.
