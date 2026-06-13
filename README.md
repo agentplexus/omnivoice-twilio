@@ -29,11 +29,12 @@ Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omni
 
 ## Features
 
+- 🎙️ **Voice Gateway**: Full-duplex phone calls with STT → LLM → TTS pipeline
 - 📞 **CallSystem**: PSTN call handling (incoming/outgoing phone calls)
 - 📡 **Transport**: Twilio Media Streams for real-time audio
 - 🗣️ **TTS**: Text-to-speech via Twilio's Say verb (Alice, Polly, Google voices)
 - 👂 **STT**: Speech recognition via Gather verb and real-time transcription
-- 💬 **SMS**: Send/receive SMS via OmniChat provider interface
+- 💬 **SMS/MMS/RCS**: Send/receive SMS, MMS, and RCS messages via OmniChat provider interface
 
 ## Installation
 
@@ -48,6 +49,7 @@ omni-twilio/
 ├── client/           # Exported Twilio REST API client
 ├── omnichat/         # SMS provider for omnichat
 └── omnivoice/
+    ├── gateway/      # Full-duplex voice gateway (STT→LLM→TTS)
     ├── callsystem/   # Call handling provider
     ├── transport/    # Media Streams provider
     ├── stt/          # Speech-to-text provider
@@ -56,25 +58,70 @@ omni-twilio/
 
 ## Quick Start
 
-### SMS (OmniChat)
+### SMS/MMS (OmniChat)
 
 ```go
-import "github.com/plexusone/omni-twilio/omnichat"
+import (
+    "github.com/plexusone/omnichat/provider"
+    "github.com/plexusone/omni-twilio/omnichat"
+)
 
-provider, _ := omnichat.New(
+p, _ := omnichat.New(
     omnichat.WithAccountSID("ACxxxxxxxx"),
     omnichat.WithAuthToken("your-token"),
     omnichat.WithPhoneNumber("+15551234567"),
 )
 
-// Connect and send SMS
-provider.Connect(ctx)
-provider.Send(ctx, "+15559876543", provider.OutgoingMessage{
+// Connect
+p.Connect(ctx)
+
+// Send SMS
+p.Send(ctx, "+15559876543", provider.OutgoingMessage{
     Content: "Hello from Twilio!",
 })
 
-// Handle incoming SMS via webhook
-http.Handle("/sms", provider.WebhookHandler())
+// Send MMS with images
+p.Send(ctx, "+15559876543", provider.OutgoingMessage{
+    Content: "Check out this photo!",
+    Media: []provider.Media{
+        {
+            Type: provider.MediaTypeImage,
+            URL:  "https://example.com/image.jpg",
+        },
+    },
+})
+
+// Enable RCS with automatic SMS/MMS fallback
+pRCS, _ := omnichat.New(
+    omnichat.WithAccountSID("ACxxxxxxxx"),
+    omnichat.WithAuthToken("your-token"),
+    omnichat.WithMessagingServiceSid("MGxxxxxxxx"), // RCS-enabled Messaging Service
+)
+
+// Send message (RCS with fallback to SMS/MMS)
+pRCS.Send(ctx, "+15559876543", provider.OutgoingMessage{
+    Content: "Hello via RCS!",
+})
+
+// Send RCS with content template
+pRCS.Send(ctx, "+15559876543", provider.OutgoingMessage{
+    Content: "Order update",
+    Metadata: map[string]any{
+        "content_sid":       "HXxxxxxxxx", // Pre-created content template
+        "content_variables": `{"1": "John", "2": "#12345"}`,
+    },
+})
+
+// Handle incoming SMS/MMS via webhook
+http.Handle("/sms", p.WebhookHandler())
+
+// In your message handler, access incoming media
+p.OnMessage(func(ctx context.Context, msg provider.IncomingMessage) error {
+    for _, media := range msg.Media {
+        fmt.Printf("Received %s: %s\n", media.Type, media.URL)
+    }
+    return nil
+})
 ```
 
 ### Voice Calls (OmniVoice)
@@ -106,6 +153,69 @@ http.HandleFunc("/incoming", handleIncoming(cs))
 http.HandleFunc("/media-stream", handleMediaStream(cs.Transport()))
 ```
 
+### Voice Gateway (Full-Duplex)
+
+The gateway package provides a complete voice agent solution with bidirectional audio:
+
+```go
+import "github.com/plexusone/omni-twilio/omnivoice/gateway"
+
+gw, _ := gateway.New(gateway.Config{
+    AccountSID:      os.Getenv("TWILIO_ACCOUNT_SID"),
+    AuthToken:       os.Getenv("TWILIO_AUTH_TOKEN"),
+    PhoneNumber:     "+15551234567",
+    PublicURL:       "https://your-server.com",
+    ListenAddr:      ":8080",
+
+    // Voice pipeline providers
+    STTProvider:     "deepgram",
+    TTSProvider:     "elevenlabs",
+    LLMProvider:     "anthropic",
+    LLMModel:        "claude-sonnet-4-20250514",
+    LLMSystemPrompt: "You are a helpful voice assistant.",
+})
+
+// Handle incoming calls
+gw.OnCall(func(call *gateway.CallInfo) error {
+    log.Printf("Incoming call from %s", call.From)
+    return nil // Accept the call
+})
+
+// Start the gateway
+ctx := context.Background()
+gw.Start(ctx)
+```
+
+**Architecture:**
+
+```
+┌──────────┐        ┌─────────────────┐        ┌───────────────────┐
+│  Caller  │◄──────►│     Twilio      │◄──────►│   Voice Gateway   │
+│  (PSTN)  │  PSTN  │  Media Streams  │   WS   │   (STT→LLM→TTS)   │
+└──────────┘        └─────────────────┘        └───────────────────┘
+```
+
+**Configure Twilio webhooks:**
+
+- Voice URL: `https://your-server.com/voice/inbound` (POST)
+- Status Callback: `https://your-server.com/voice/status` (POST)
+
+**Monitor sessions:**
+
+```go
+session, _ := gw.GetSession(callSID)
+for event := range session.Events() {
+    switch event.Type {
+    case gateway.EventUserTranscript:
+        log.Printf("User: %s", event.Data)
+    case gateway.EventAgentTranscript:
+        log.Printf("Agent: %s", event.Data)
+    case gateway.EventSessionEnded:
+        log.Println("Call ended")
+    }
+}
+```
+
 ### Direct Client Usage
 
 ```go
@@ -121,6 +231,29 @@ msg, _ := c.SendSMS(ctx, &client.SendSMSParams{
     To:   "+15559876543",
     From: "+15551234567",
     Body: "Hello!",
+})
+
+// Send MMS with media
+mms, _ := c.SendSMS(ctx, &client.SendSMSParams{
+    To:        "+15559876543",
+    From:      "+15551234567",
+    Body:      "Check this out!",
+    MediaURLs: []string{"https://example.com/image.jpg"},
+})
+
+// Send RCS (with automatic SMS/MMS fallback)
+rcs, _ := c.SendSMS(ctx, &client.SendSMSParams{
+    To:                  "+15559876543",
+    MessagingServiceSid: "MGxxxxxxxx", // RCS-enabled Messaging Service
+    Body:                "Hello via RCS!",
+})
+
+// Send RCS with content template (rich cards, carousels)
+rcsRich, _ := c.SendSMS(ctx, &client.SendSMSParams{
+    To:                  "+15559876543",
+    MessagingServiceSid: "MGxxxxxxxx",
+    ContentSid:          "HXxxxxxxxx", // Pre-created template
+    ContentVariables:    `{"1": "John", "2": "Welcome!"}`,
 })
 
 // Make call
@@ -197,7 +330,24 @@ for conn := range connCh {
 ```bash
 export TWILIO_ACCOUNT_SID="your-account-sid"
 export TWILIO_AUTH_TOKEN="your-auth-token"
+export TWILIO_MESSAGING_SERVICE_SID="MGxxxxxxxx"  # Optional: for RCS
 ```
+
+### RCS Setup
+
+RCS (Rich Communication Services) provides rich messaging features with automatic fallback to SMS/MMS:
+
+1. Create a Messaging Service in the Twilio Console
+2. Add an RCS sender to your Messaging Service (requires carrier approval)
+3. Use `WithMessagingServiceSid()` or set `TWILIO_MESSAGING_SERVICE_SID`
+
+RCS features:
+
+- Branded sender identity
+- Rich cards and carousels (via Content API templates)
+- Suggested replies and actions
+- Read receipts and typing indicators
+- Automatic fallback to SMS/MMS when RCS unavailable
 
 ### Available Voices
 

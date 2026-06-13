@@ -4,6 +4,7 @@ Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omni
 
 ## Features
 
+- **Voice Gateway**: Full-duplex phone calls with STT → LLM → TTS pipeline
 - **Client**: Exported Twilio REST API client for calls and SMS
 - **Transport**: Twilio Media Streams for real-time audio
 - **TTS**: Text-to-speech via Twilio's Say verb (Alice, Polly, Google voices)
@@ -17,6 +18,7 @@ omni-twilio/
 ├── client/           # Exported Twilio REST API client
 ├── omnichat/         # SMS provider for omnichat
 └── omnivoice/
+    ├── gateway/      # Full-duplex voice gateway (STT→LLM→TTS)
     ├── callsystem/   # Call handling provider
     ├── transport/    # Media Streams provider
     ├── stt/          # Speech-to-text provider
