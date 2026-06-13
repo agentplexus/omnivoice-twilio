@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -17,14 +19,15 @@ import (
 // Verify interface compliance at compile time.
 var _ provider.Provider = (*Provider)(nil)
 
-// Provider implements provider.Provider for Twilio SMS.
+// Provider implements provider.Provider for Twilio SMS/MMS/RCS.
 type Provider struct {
-	client         *client.Client
-	defaultFrom    string
-	logger         *slog.Logger
-	messageHandler provider.MessageHandler
-	eventHandler   provider.EventHandler
-	webhookHandler http.Handler
+	client              *client.Client
+	defaultFrom         string
+	messagingServiceSid string // For RCS senders
+	logger              *slog.Logger
+	messageHandler      provider.MessageHandler
+	eventHandler        provider.EventHandler
+	webhookHandler      http.Handler
 
 	mu        sync.RWMutex
 	connected bool
@@ -34,10 +37,11 @@ type Provider struct {
 type Option func(*options)
 
 type options struct {
-	accountSID  string
-	authToken   string
-	phoneNumber string
-	logger      *slog.Logger
+	accountSID          string
+	authToken           string
+	phoneNumber         string
+	messagingServiceSid string
+	logger              *slog.Logger
 }
 
 // WithAccountSID sets the Twilio Account SID.
@@ -58,6 +62,14 @@ func WithAuthToken(token string) Option {
 func WithPhoneNumber(number string) Option {
 	return func(o *options) {
 		o.phoneNumber = number
+	}
+}
+
+// WithMessagingServiceSid sets the Messaging Service SID for RCS.
+// When set, RCS is attempted with automatic fallback to SMS/MMS.
+func WithMessagingServiceSid(sid string) Option {
+	return func(o *options) {
+		o.messagingServiceSid = sid
 	}
 }
 
@@ -88,9 +100,10 @@ func New(opts ...Option) (*Provider, error) {
 	}
 
 	p := &Provider{
-		client:      twilioClient,
-		defaultFrom: cfg.phoneNumber,
-		logger:      cfg.logger,
+		client:              twilioClient,
+		defaultFrom:         cfg.phoneNumber,
+		messagingServiceSid: cfg.messagingServiceSid,
+		logger:              cfg.logger,
 	}
 
 	// Create webhook handler
@@ -131,8 +144,9 @@ func (p *Provider) Disconnect(ctx context.Context) error {
 	return nil
 }
 
-// Send sends an SMS message.
+// Send sends an SMS or MMS message.
 // The chatID is the recipient phone number in E.164 format (e.g., "+1234567890").
+// If msg.Media contains items with URLs, the message is sent as MMS.
 func (p *Provider) Send(ctx context.Context, chatID string, msg provider.OutgoingMessage) error {
 	p.mu.RLock()
 	connected := p.connected
@@ -142,25 +156,68 @@ func (p *Provider) Send(ctx context.Context, chatID string, msg provider.Outgoin
 		return fmt.Errorf("provider not connected")
 	}
 
-	from := p.defaultFrom
-	if from == "" {
-		return fmt.Errorf("from phone number not configured")
+	// Validate sender configuration
+	if p.messagingServiceSid == "" && p.defaultFrom == "" {
+		return fmt.Errorf("from phone number or messaging service SID not configured")
 	}
 
-	twilioMsg, err := p.client.SendSMS(ctx, &client.SendSMSParams{
-		To:   chatID,
-		From: from,
-		Body: msg.Content,
-	})
+	// Extract media URLs from the message
+	var mediaURLs []string
+	for _, m := range msg.Media {
+		if m.URL != "" {
+			mediaURLs = append(mediaURLs, m.URL)
+		}
+	}
+
+	// Build SMS params
+	params := &client.SendSMSParams{
+		To:        chatID,
+		Body:      msg.Content,
+		MediaURLs: mediaURLs,
+	}
+
+	// Prefer MessagingServiceSid for RCS, fall back to From for SMS/MMS
+	if p.messagingServiceSid != "" {
+		params.MessagingServiceSid = p.messagingServiceSid
+	} else {
+		params.From = p.defaultFrom
+	}
+
+	// Extract RCS content template from metadata
+	if msg.Metadata != nil {
+		if contentSid, ok := msg.Metadata["content_sid"].(string); ok {
+			params.ContentSid = contentSid
+		}
+		if contentVars, ok := msg.Metadata["content_variables"].(string); ok {
+			params.ContentVariables = contentVars
+		}
+	}
+
+	twilioMsg, err := p.client.SendSMS(ctx, params)
 	if err != nil {
-		return fmt.Errorf("failed to send SMS: %w", err)
+		return fmt.Errorf("failed to send message: %w", err)
 	}
 
-	p.logger.Debug("SMS sent",
+	// Determine message type for logging
+	msgType := "SMS"
+	if params.MessagingServiceSid != "" || params.ContentSid != "" {
+		msgType = "RCS"
+	} else if len(mediaURLs) > 0 {
+		msgType = "MMS"
+	}
+
+	// Log sender info
+	sender := params.From
+	if params.MessagingServiceSid != "" {
+		sender = params.MessagingServiceSid
+	}
+
+	p.logger.Debug(msgType+" sent",
 		"to", chatID,
-		"from", from,
+		"from", sender,
 		"sid", twilioMsg.SID,
 		"status", twilioMsg.Status,
+		"num_media", len(mediaURLs),
 	)
 
 	return nil
@@ -207,10 +264,26 @@ func (p *Provider) handleWebhook(w http.ResponseWriter, r *http.Request) {
 	to := r.Form.Get("To")
 	body := r.Form.Get("Body")
 	accountSID := r.Form.Get("AccountSid")
+	numMediaStr := r.Form.Get("NumMedia")
 
 	if messageSID == "" || from == "" {
 		http.Error(w, "missing required fields", http.StatusBadRequest)
 		return
+	}
+
+	// Extract media attachments (MMS)
+	var media []provider.Media
+	numMedia, _ := strconv.Atoi(numMediaStr)
+	for i := 0; i < numMedia; i++ {
+		mediaURL := r.Form.Get(fmt.Sprintf("MediaUrl%d", i))
+		mediaContentType := r.Form.Get(fmt.Sprintf("MediaContentType%d", i))
+		if mediaURL != "" {
+			media = append(media, provider.Media{
+				Type:     mediaTypeFromMIME(mediaContentType),
+				URL:      mediaURL,
+				MimeType: mediaContentType,
+			})
+		}
 	}
 
 	p.mu.RLock()
@@ -226,11 +299,12 @@ func (p *Provider) handleWebhook(w http.ResponseWriter, r *http.Request) {
 			SenderID:     from,
 			SenderName:   from,
 			Content:      body,
+			Media:        media,
 			Timestamp:    time.Now(),
 			Metadata: map[string]any{
 				"to":           to,
 				"account_sid":  accountSID,
-				"num_media":    r.Form.Get("NumMedia"),
+				"num_media":    numMediaStr,
 				"from_city":    r.Form.Get("FromCity"),
 				"from_state":   r.Form.Get("FromState"),
 				"from_zip":     r.Form.Get("FromZip"),
@@ -250,22 +324,49 @@ func (p *Provider) handleWebhook(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?><Response></Response>`))
 }
 
+// mediaTypeFromMIME converts a MIME type to provider.MediaType.
+func mediaTypeFromMIME(mimeType string) provider.MediaType {
+	switch {
+	case strings.HasPrefix(mimeType, "image/"):
+		return provider.MediaTypeImage
+	case strings.HasPrefix(mimeType, "video/"):
+		return provider.MediaTypeVideo
+	case strings.HasPrefix(mimeType, "audio/"):
+		return provider.MediaTypeAudio
+	default:
+		return provider.MediaTypeDocument
+	}
+}
+
 // SendFrom sends an SMS from a specific phone number.
 func (p *Provider) SendFrom(ctx context.Context, to, from, body string) error {
+	return p.SendFromWithMedia(ctx, to, from, body, nil)
+}
+
+// SendFromWithMedia sends an SMS or MMS from a specific phone number.
+// If mediaURLs are provided, the message is sent as MMS.
+func (p *Provider) SendFromWithMedia(ctx context.Context, to, from, body string, mediaURLs []string) error {
 	twilioMsg, err := p.client.SendSMS(ctx, &client.SendSMSParams{
-		To:   to,
-		From: from,
-		Body: body,
+		To:        to,
+		From:      from,
+		Body:      body,
+		MediaURLs: mediaURLs,
 	})
 	if err != nil {
-		return fmt.Errorf("failed to send SMS: %w", err)
+		return fmt.Errorf("failed to send message: %w", err)
 	}
 
-	p.logger.Debug("SMS sent",
+	msgType := "SMS"
+	if len(mediaURLs) > 0 {
+		msgType = "MMS"
+	}
+
+	p.logger.Debug(msgType+" sent",
 		"to", to,
 		"from", from,
 		"sid", twilioMsg.SID,
 		"status", twilioMsg.Status,
+		"num_media", len(mediaURLs),
 	)
 
 	return nil

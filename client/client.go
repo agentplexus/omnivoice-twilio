@@ -5,10 +5,17 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/twilio/twilio-go"
 	openapi "github.com/twilio/twilio-go/rest/api/v2010"
 )
+
+// parseInt converts a string to int, returning 0 on error.
+func parseInt(s string) int {
+	n, _ := strconv.Atoi(s)
+	return n
+}
 
 // Client wraps the official Twilio SDK for internal use.
 type Client struct {
@@ -219,6 +226,8 @@ type Message struct {
 	Status     string
 	Direction  string
 	DateSent   string
+	NumMedia   int      // Number of media attachments (MMS)
+	MediaURLs  []string // URLs of attached media (MMS)
 }
 
 // messageFromAPI converts an API message response to our Message type.
@@ -248,29 +257,74 @@ func messageFromAPI(apiMsg *openapi.ApiV2010Message) *Message {
 	if apiMsg.DateSent != nil {
 		msg.DateSent = *apiMsg.DateSent
 	}
+	if apiMsg.NumMedia != nil {
+		msg.NumMedia = parseInt(*apiMsg.NumMedia)
+	}
 	return msg
 }
 
-// SendSMSParams are parameters for sending an SMS.
+// SendSMSParams are parameters for sending an SMS, MMS, or RCS message.
 type SendSMSParams struct {
-	To   string
-	From string
-	Body string
+	To        string
+	From      string // Phone number for SMS/MMS (ignored if MessagingServiceSid is set)
+	Body      string
+	MediaURLs []string // URLs of media to attach (makes this an MMS)
+
+	// RCS-specific fields
+	MessagingServiceSid string // Messaging Service SID with RCS sender (required for RCS)
+	ContentSid          string // Content template SID for rich content (starts with "HX")
+	ContentVariables    string // JSON object for template variables
 }
 
-// SendSMS sends an SMS message.
+// SendSMS sends an SMS, MMS, or RCS message.
+// If MediaURLs are provided, the message becomes an MMS.
+// If MessagingServiceSid is provided, RCS is attempted with automatic fallback to SMS/MMS.
 func (c *Client) SendSMS(ctx context.Context, params *SendSMSParams) (*Message, error) {
 	createParams := &openapi.CreateMessageParams{}
 	createParams.SetTo(params.To)
-	createParams.SetFrom(params.From)
-	createParams.SetBody(params.Body)
+
+	// Use MessagingServiceSid for RCS, From for SMS/MMS
+	if params.MessagingServiceSid != "" {
+		createParams.SetMessagingServiceSid(params.MessagingServiceSid)
+	} else if params.From != "" {
+		createParams.SetFrom(params.From)
+	}
+
+	if params.Body != "" {
+		createParams.SetBody(params.Body)
+	}
+	if len(params.MediaURLs) > 0 {
+		createParams.SetMediaUrl(params.MediaURLs)
+	}
+
+	// RCS rich content via Content API
+	if params.ContentSid != "" {
+		createParams.SetContentSid(params.ContentSid)
+	}
+	if params.ContentVariables != "" {
+		createParams.SetContentVariables(params.ContentVariables)
+	}
 
 	apiMsg, err := c.restClient.Api.CreateMessage(createParams)
 	if err != nil {
-		return nil, fmt.Errorf("failed to send SMS: %w", err)
+		msgType := messageType(params)
+		return nil, fmt.Errorf("failed to send %s: %w", msgType, err)
 	}
 
-	return messageFromAPI(apiMsg), nil
+	msg := messageFromAPI(apiMsg)
+	msg.MediaURLs = params.MediaURLs // Preserve the media URLs we sent
+	return msg, nil
+}
+
+// messageType returns a human-readable message type for error messages.
+func messageType(params *SendSMSParams) string {
+	if params.MessagingServiceSid != "" || params.ContentSid != "" {
+		return "RCS"
+	}
+	if len(params.MediaURLs) > 0 {
+		return "MMS"
+	}
+	return "SMS"
 }
 
 // PhoneNumber represents a Twilio phone number.
