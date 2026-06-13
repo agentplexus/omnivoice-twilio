@@ -520,7 +520,7 @@
   
   
   <span class="md-ellipsis">
-    Releases
+    Guides
     
   </span>
   
@@ -531,9 +531,107 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/twilio-console/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Twilio Console Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Releases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
             Releases
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="releases/v0.6.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.6.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -771,10 +869,11 @@
   
 
 
-<h1 id="omni-twilio">omni-twilio<a class="headerlink" href="#omni-twilio" title="Permanent link">&para;</a></h1>
+<h1 id="omni-twilio">Omni-Twilio<a class="headerlink" href="#omni-twilio" title="Permanent link">&para;</a></h1>
 <p>Go SDK for Twilio with adapters for <a href="https://github.com/plexusone/omnichat">OmniChat</a> (SMS) and <a href="https://github.com/plexusone/omnivoice-core">OmniVoice</a> (voice).</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <ul>
+<li><strong>Voice Gateway</strong>: Full-duplex phone calls with STT → LLM → TTS pipeline</li>
 <li><strong>Client</strong>: Exported Twilio REST API client for calls and SMS</li>
 <li><strong>Transport</strong>: Twilio Media Streams for real-time audio</li>
 <li><strong>TTS</strong>: Text-to-speech via Twilio's Say verb (Alice, Polly, Google voices)</li>
@@ -786,10 +885,11 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── client/           # Exported Twilio REST API client
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── omnichat/         # SMS provider for omnichat
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└── omnivoice/
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    ├── callsystem/   # Call handling provider
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ├── transport/    # Media Streams provider
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ├── stt/          # Speech-to-text provider
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    └── tts/          # Text-to-speech provider
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    ├── gateway/      # Full-duplex voice gateway (STT→LLM→TTS)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ├── callsystem/   # Call handling provider
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ├── transport/    # Media Streams provider
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ├── stt/          # Speech-to-text provider
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    └── tts/          # Text-to-speech provider
 </code></pre></div>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <h3 id="sms-omnichat">SMS (OmniChat)<a class="headerlink" href="#sms-omnichat" title="Permanent link">&para;</a></h3>

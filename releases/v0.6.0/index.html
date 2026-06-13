@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://plexusone.github.io/omni-twilio/releases/v0.4.0/">
+        <link rel="canonical" href="https://plexusone.github.io/omni-twilio/releases/v0.6.0/">
       
       
-        <link rel="prev" href="../v0.5.0/">
+        <link rel="prev" href="../../guides/twilio-console/">
       
       
-        <link rel="next" href="../v0.3.0/">
+        <link rel="next" href="../v0.5.0/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>v0.4.0 - omni-twilio</title>
+        <title>v0.6.0 - omni-twilio</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-notes-v040" class="md-skip">
+        <a href="#release-notes-v060" class="md-skip">
           Skip to content
         </a>
       
@@ -121,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              v0.4.0
+              v0.6.0
             
           </span>
         </div>
@@ -505,10 +505,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../v0.6.0/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    v0.6.0
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -519,6 +541,182 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Highlights
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#voice-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Voice Gateway
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Voice Gateway">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gateway-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gateway Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Providers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mms-and-rcs-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      MMS and RCS Support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MMS and RCS Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mmsrcs-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      MMS/RCS Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breaking Changes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Breaking Changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#omnivoice-core-dependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      omnivoice-core Dependency
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Guide
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-v050" class="md-nav__link">
+    <span class="md-ellipsis">
+      From v0.5.0
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      Full Changelog
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -551,32 +749,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    v0.4.0
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../v0.4.0/" class="md-nav__link">
         
   
   
@@ -587,188 +763,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#highlights" class="md-nav__link">
-    <span class="md-ellipsis">
-      Highlights
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#whats-new" class="md-nav__link">
-    <span class="md-ellipsis">
-      What's New
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What&#39;s New">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#module-rename" class="md-nav__link">
-    <span class="md-ellipsis">
-      Module Rename
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#new-package-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      New Package Structure
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#omnichat-sms-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      OmniChat SMS Provider
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exported-twilio-client" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exported Twilio Client
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Breaking Changes
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Breaking Changes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#module-path" class="md-nav__link">
-    <span class="md-ellipsis">
-      Module Path
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#package-locations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Package Locations
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#migration-guide" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migration Guide
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Migration Guide">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#step-1-update-import-paths" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 1: Update Import Paths
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-2-update-gomod" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 2: Update go.mod
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-3-verify-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 3: Verify Build
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      Dependencies
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-fixes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Fixes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#full-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      Full Changelog
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -886,48 +880,69 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new" class="md-nav__link">
+  <a href="#new-features" class="md-nav__link">
     <span class="md-ellipsis">
-      What's New
+      New Features
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What&#39;s New">
+    <nav class="md-nav" aria-label="New Features">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#module-rename" class="md-nav__link">
+  <a href="#voice-gateway" class="md-nav__link">
     <span class="md-ellipsis">
-      Module Rename
+      Voice Gateway
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Voice Gateway">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gateway-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gateway Features
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#new-package-structure" class="md-nav__link">
+  <a href="#supported-providers" class="md-nav__link">
     <span class="md-ellipsis">
-      New Package Structure
+      Supported Providers
     </span>
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#omnichat-sms-provider" class="md-nav__link">
+  <a href="#mms-and-rcs-support" class="md-nav__link">
     <span class="md-ellipsis">
-      OmniChat SMS Provider
+      MMS and RCS Support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MMS and RCS Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mmsrcs-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      MMS/RCS Features
     </span>
   </a>
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#exported-twilio-client" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exported Twilio Client
-    </span>
-  </a>
+      </ul>
+    </nav>
   
 </li>
         
@@ -947,18 +962,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#module-path" class="md-nav__link">
+  <a href="#omnivoice-core-dependency" class="md-nav__link">
     <span class="md-ellipsis">
-      Module Path
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#package-locations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Package Locations
+      omnivoice-core Dependency
     </span>
   </a>
   
@@ -966,6 +972,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
   
 </li>
       
@@ -980,27 +995,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-1-update-import-paths" class="md-nav__link">
+  <a href="#from-v050" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 1: Update Import Paths
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-2-update-gomod" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 2: Update go.mod
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-3-verify-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 3: Verify Build
+      From v0.5.0
     </span>
   </a>
   
@@ -1015,15 +1012,6 @@
   <a href="#dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       Dependencies
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-fixes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Fixes
     </span>
   </a>
   
@@ -1057,121 +1045,180 @@
   
 
 
-<h1 id="release-notes-v040">Release Notes: v0.4.0<a class="headerlink" href="#release-notes-v040" title="Permanent link">&para;</a></h1>
-<p><strong>Release Date:</strong> 2026-04-18</p>
+<h1 id="release-notes-v060">Release Notes: v0.6.0<a class="headerlink" href="#release-notes-v060" title="Permanent link">&para;</a></h1>
+<p><strong>Release Date:</strong> 2026-06-13</p>
 <h2 id="highlights">Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Breaking</strong>: Rename from <code>omnivoice-twilio</code> to <code>twilio-go</code></li>
-<li>Add OmniChat SMS provider for omnichat integration</li>
+<li><strong>Voice Gateway</strong>: Full-duplex phone conversations with STT → LLM → TTS pipeline</li>
+<li><strong>MMS/RCS Support</strong>: Send and receive MMS with media attachments, RCS with rich templates</li>
+<li><strong>omnivoice-core Integration</strong>: Uses global provider registry for cleaner dependency architecture</li>
 </ul>
-<h2 id="whats-new">What's New<a class="headerlink" href="#whats-new" title="Permanent link">&para;</a></h2>
-<h3 id="module-rename">Module Rename<a class="headerlink" href="#module-rename" title="Permanent link">&para;</a></h3>
-<p>The module has been renamed from <code>github.com/plexusone/omnivoice-twilio</code> to <code>github.com/plexusone/twilio-go</code> to better reflect its expanded scope beyond voice-only functionality.</p>
-<h3 id="new-package-structure">New Package Structure<a class="headerlink" href="#new-package-structure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>twilio-go/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── client/           # Exported Twilio REST API client (was internal)
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── omnichat/         # NEW: SMS provider for omnichat
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└── omnivoice/
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    ├── callsystem/   # Call handling provider
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ├── transport/    # Media Streams provider
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ├── stt/          # Speech-to-text provider
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    └── tts/          # Text-to-speech provider
+<h2 id="new-features">New Features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h2>
+<h3 id="voice-gateway">Voice Gateway<a class="headerlink" href="#voice-gateway" title="Permanent link">&para;</a></h3>
+<p>The new <code>omnivoice/gateway</code> package provides real-time bidirectional voice conversations:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnivoice/gateway&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">gw</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gateway</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gateway</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="c1">// STT: Speech-to-text</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">STTProvider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deepgram&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nx">STTAPIKey</span><span class="p">:</span><span class="w">   </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;DEEPGRAM_API_KEY&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="c1">// LLM: Language model</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nx">LLMProvider</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;anthropic&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nx">LLMAPIKey</span><span class="p">:</span><span class="w">       </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;ANTHROPIC_API_KEY&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nx">LLMModel</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;claude-sonnet-4-20250514&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nx">LLMSystemPrompt</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;You are a helpful voice assistant...&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="c1">// TTS: Text-to-speech</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nx">TTSProvider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;elevenlabs&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="nx">TTSAPIKey</span><span class="p">:</span><span class="w">   </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;ELEVENLABS_API_KEY&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="nx">TTSVoiceID</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;21m00Tcm4TlvDq8ikWAM&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Rachel</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">})</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1">// Handle incoming calls</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/voice/incoming&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">gw</span><span class="p">.</span><span class="nx">HandleIncoming</span><span class="p">)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/voice/media&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">gw</span><span class="p">.</span><span class="nx">HandleMediaStream</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="omnichat-sms-provider">OmniChat SMS Provider<a class="headerlink" href="#omnichat-sms-provider" title="Permanent link">&para;</a></h3>
-<p>New <code>omnichat</code> package implementing <code>provider.Provider</code> from <a href="https://github.com/plexusone/omnichat">omnichat</a>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/twilio-go/omnichat&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="s">&quot;ACxxxxxxxx&quot;</span><span class="p">),</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="s">&quot;your-token&quot;</span><span class="p">),</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithPhoneNumber</span><span class="p">(</span><span class="s">&quot;+15551234567&quot;</span><span class="p">),</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">)</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// Connect and send SMS</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">OutgoingMessage</span><span class="p">{</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nx">Content</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Hello from Twilio!&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">})</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">// Handle incoming SMS via webhook</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nx">http</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="s">&quot;/sms&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">WebhookHandler</span><span class="p">())</span>
-</code></pre></div>
-<h3 id="exported-twilio-client">Exported Twilio Client<a class="headerlink" href="#exported-twilio-client" title="Permanent link">&para;</a></h3>
-<p>The Twilio REST API client is now exported at <code>client/</code> (previously <code>internal/client</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/twilio-go/client&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">client</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nx">AccountSID</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ACxxxxxxxx&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nx">AuthToken</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;your-token&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">})</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">// Send SMS directly</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nx">msg</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">SendSMS</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">client</span><span class="p">.</span><span class="nx">SendSMSParams</span><span class="p">{</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nx">To</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nx">From</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;+15551234567&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nx">Body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Hello!&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">})</span>
-</code></pre></div>
-<h2 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h2>
-<h3 id="module-path">Module Path<a class="headerlink" href="#module-path" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gd">- import &quot;github.com/plexusone/omnivoice-twilio/callsystem&quot;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="gi">+ import &quot;github.com/plexusone/twilio-go/omnivoice/callsystem&quot;</span>
-</code></pre></div>
-<h3 id="package-locations">Package Locations<a class="headerlink" href="#package-locations" title="Permanent link">&para;</a></h3>
+<h4 id="gateway-features">Gateway Features<a class="headerlink" href="#gateway-features" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
-<th>Old Path</th>
-<th>New Path</th>
+<th>Feature</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>omnivoice-twilio/callsystem</code></td>
-<td><code>twilio-go/omnivoice/callsystem</code></td>
+<td>Full-duplex audio</td>
+<td>User and agent can speak simultaneously</td>
 </tr>
 <tr>
-<td><code>omnivoice-twilio/transport</code></td>
-<td><code>twilio-go/omnivoice/transport</code></td>
+<td>Real-time streaming</td>
+<td>Low-latency audio via Twilio Media Streams</td>
 </tr>
 <tr>
-<td><code>omnivoice-twilio/stt</code></td>
-<td><code>twilio-go/omnivoice/stt</code></td>
+<td>Provider flexibility</td>
+<td>Mix and match STT, LLM, TTS providers</td>
 </tr>
 <tr>
-<td><code>omnivoice-twilio/tts</code></td>
-<td><code>twilio-go/omnivoice/tts</code></td>
+<td>Tool calling</td>
+<td>LLM can invoke functions during conversation</td>
+</tr>
+<tr>
+<td>Conversation history</td>
+<td>Maintains context across turns</td>
 </tr>
 </tbody>
 </table>
-<p>Note: The Twilio client is now exported at <code>twilio-go/client</code> (previously internal and inaccessible).</p>
+<h4 id="supported-providers">Supported Providers<a class="headerlink" href="#supported-providers" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Providers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STT</td>
+<td>Deepgram, OpenAI Whisper, ElevenLabs</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>Anthropic Claude, OpenAI GPT</td>
+</tr>
+<tr>
+<td>TTS</td>
+<td>ElevenLabs, OpenAI, Deepgram</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mms-and-rcs-support">MMS and RCS Support<a class="headerlink" href="#mms-and-rcs-support" title="Permanent link">&para;</a></h3>
+<p>The client and OmniChat provider now support rich messaging:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Send MMS with media</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">client</span><span class="p">.</span><span class="nx">SendSMS</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">client</span><span class="p">.</span><span class="nx">SendSMSParams</span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">To</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">From</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;+15551234567&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">Body</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;Check out this image!&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nx">MediaURLs</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;https://example.com/image.jpg&quot;</span><span class="p">},</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">})</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// Send RCS with template</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nx">client</span><span class="p">.</span><span class="nx">SendSMS</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">client</span><span class="p">.</span><span class="nx">SendSMSParams</span><span class="p">{</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nx">To</span><span class="p">:</span><span class="w">                  </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nx">MessagingServiceSid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MGxxxxxxxx&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// RCS-enabled service</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nx">ContentSid</span><span class="p">:</span><span class="w">          </span><span class="s">&quot;HXxxxxxxxx&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// Rich content template</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nx">ContentVariables</span><span class="p">:</span><span class="w">    </span><span class="s">`{&quot;1&quot;:&quot;John&quot;}`</span><span class="p">,</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">})</span>
+</code></pre></div>
+<h4 id="mmsrcs-features">MMS/RCS Features<a class="headerlink" href="#mmsrcs-features" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMS sending</td>
+<td>Attach images, videos, audio via MediaURLs</td>
+</tr>
+<tr>
+<td>MMS receiving</td>
+<td>Parse media attachments from incoming messages</td>
+</tr>
+<tr>
+<td>RCS templates</td>
+<td>Use ContentSid for rich interactive content</td>
+</tr>
+<tr>
+<td>Automatic fallback</td>
+<td>RCS falls back to SMS/MMS when unavailable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h2>
+<h3 id="omnivoice-core-dependency">omnivoice-core Dependency<a class="headerlink" href="#omnivoice-core-dependency" title="Permanent link">&para;</a></h3>
+<p>The gateway uses <code>omnivoice-core</code> v0.11.0's global registry instead of <code>omnivoice</code>. Applications must import desired provider packages for auto-registration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nx">omnivoice</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omnivoice-core&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="s">&quot;github.com/plexusone/omnivoice-core/registry&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="c1">// Import providers to auto-register them</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-deepgram&quot;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-openai&quot;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/elevenlabs-go/omnivoice/tts&quot;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/plexusone/omni-twilio@v0.6.0
+</code></pre></div>
 <h2 id="migration-guide">Migration Guide<a class="headerlink" href="#migration-guide" title="Permanent link">&para;</a></h2>
-<h3 id="step-1-update-import-paths">Step 1: Update Import Paths<a class="headerlink" href="#step-1-update-import-paths" title="Permanent link">&para;</a></h3>
-<p>Replace all imports:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Using sed</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.go&quot;</span><span class="w"> </span>-exec<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="s1">&#39;s|github.com/plexusone/omnivoice-twilio|github.com/plexusone/twilio-go/omnivoice|g&#39;</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># Or manually update imports</span>
+<h3 id="from-v050">From v0.5.0<a class="headerlink" href="#from-v050" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Update dependency:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/plexusone/omni-twilio@v0.6.0
 </code></pre></div>
-<h3 id="step-2-update-gomod">Step 2: Update go.mod<a class="headerlink" href="#step-2-update-gomod" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/plexusone/twilio-go@v0.4.0
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>go<span class="w"> </span>mod<span class="w"> </span>tidy
+<ol>
+<li>If using the voice gateway, import provider packages:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-deepgram&quot;</span><span class="w">    </span><span class="c1">// For Deepgram STT/TTS</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-openai&quot;</span><span class="w">      </span><span class="c1">// For OpenAI STT/TTS</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">)</span>
 </code></pre></div>
-<h3 id="step-3-verify-build">Step 3: Verify Build<a class="headerlink" href="#step-3-verify-build" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>go<span class="w"> </span>build<span class="w"> </span>./...
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>./...
-</code></pre></div>
+<ol>
+<li>MMS/RCS support is additive - existing SMS code continues to work.</li>
+</ol>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Bump <code>github.com/twilio/twilio-go</code> from 1.30.4 to 1.30.5</li>
-</ul>
-<h2 id="security-fixes">Security Fixes<a class="headerlink" href="#security-fixes" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Resolve G120 gosec lint errors by adding <code>http.MaxBytesReader</code> to webhook handlers</li>
+<li>Updated <code>github.com/plexusone/omnivoice-core</code> from v0.10.0 to v0.11.0</li>
+<li>Removed direct dependency on <code>github.com/plexusone/omnivoice</code></li>
 </ul>
 <h2 id="full-changelog">Full Changelog<a class="headerlink" href="#full-changelog" title="Permanent link">&para;</a></h2>
-<p>See <a href="https://github.com/plexusone/twilio-go/blob/main/CHANGELOG.md">CHANGELOG.md</a> for the complete list of changes.</p>
+<p>See <a href="../../CHANGELOG.md">CHANGELOG.md</a> for the complete list of changes.</p>
 
 
 
