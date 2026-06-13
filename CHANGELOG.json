@@ -7,6 +7,42 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.6.0",
+      "date": "2026-06-13",
+      "highlights": [
+        { "description": "Full-duplex voice gateway with STT → LLM → TTS pipeline" },
+        { "description": "MMS and RCS messaging support" }
+      ],
+      "added": [
+        { "description": "`omnivoice/gateway` package for real-time bidirectional voice conversations", "commit": "741fcf5" },
+        { "description": "Voice gateway with configurable STT providers (Deepgram, OpenAI Whisper)", "commit": "741fcf5" },
+        { "description": "Voice gateway with configurable TTS providers (ElevenLabs, OpenAI, Deepgram)", "commit": "741fcf5" },
+        { "description": "Voice gateway with LLM integration via omnillm (Anthropic, OpenAI)", "commit": "741fcf5" },
+        { "description": "Tool/function calling support in voice conversations", "commit": "741fcf5" },
+        { "description": "Real-time audio chunk pacing to prevent choppy playback", "commit": "741fcf5" },
+        { "description": "MMS support with `MediaURLs` field for sending/receiving media attachments", "commit": "1b66d7b" },
+        { "description": "RCS support with `MessagingServiceSid`, `ContentSid`, `ContentVariables` fields", "commit": "1b66d7b" },
+        { "description": "`NumMedia` and `MediaURLs` fields on received messages for MMS parsing", "commit": "1b66d7b" },
+        { "description": "`WithMessagingServiceSid` option on OmniChat provider for RCS senders", "commit": "1b66d7b" }
+      ],
+      "changed": [
+        { "description": "Use `omnivoice-core` v0.11.0 global registry instead of `omnivoice` package", "commit": "741fcf5" }
+      ],
+      "tests": [
+        { "description": "Add client tests for SMS/MMS/RCS message sending", "commit": "ee0bf05" },
+        { "description": "Add OmniChat provider tests for webhook parsing and media handling", "commit": "ee0bf05" }
+      ],
+      "documentation": [
+        { "description": "Update README with voice gateway feature and MMS/RCS support", "commit": "05a705b" },
+        { "description": "Add Twilio console setup guide", "commit": "05a705b" },
+        { "description": "Update package structure diagram in README", "commit": "05a705b" }
+      ],
+      "dependencies": [
+        { "description": "Update `github.com/plexusone/omnivoice-core` from v0.10.0 to v0.11.0", "commit": "741fcf5" },
+        { "description": "Remove direct dependency on `github.com/plexusone/omnivoice`", "commit": "741fcf5" }
+      ]
+    },
+    {
       "version": "v0.5.0",
       "date": "2026-05-03",
       "highlights": [
