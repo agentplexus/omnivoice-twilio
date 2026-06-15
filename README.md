@@ -216,6 +216,25 @@ gw, _ := gateway.New(gateway.Config{
 gw.Start(ctx)
 ```
 
+#### Registry Integration
+
+Use omnivoice-core's provider registry for automatic discovery:
+
+```go
+import (
+    omnivoice "github.com/plexusone/omnivoice-core"
+    "github.com/plexusone/omnivoice-core/registry"
+    _ "github.com/plexusone/omni-twilio/omnivoice/gateway" // Auto-register
+)
+
+// Get gateway via registry
+gw, err := omnivoice.GetGatewayProvider("twilio",
+    registry.WithAPIKey("TWILIO_AUTH_TOKEN"),
+    registry.WithExtension("accountSID", "ACxxxxxxxx"),
+    registry.WithExtension("phoneNumber", "+15551234567"),
+)
+```
+
 **Architecture:**
 
 ```
