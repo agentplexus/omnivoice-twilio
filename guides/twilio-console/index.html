@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://plexusone.github.io/omni-twilio/guides/twilio-console/">
       
       
-        <link rel="prev" href="../../getting-started/installation/">
+        <link rel="prev" href="../voice-gateway/">
       
       
-        <link rel="next" href="../../releases/v0.6.0/">
+        <link rel="next" href="../../releases/v0.7.0/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -430,6 +430,29 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../voice-gateway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Voice Gateway
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -562,9 +585,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-example" class="md-nav__link">
+  <a href="#pipeline-modes" class="md-nav__link">
     <span class="md-ellipsis">
-      Code Example
+      Pipeline Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-mode-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Text Mode Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#realtime-mode-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Realtime Mode Example
     </span>
   </a>
   
@@ -595,7 +636,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-example_1" class="md-nav__link">
+  <a href="#code-example" class="md-nav__link">
     <span class="md-ellipsis">
       Code Example
     </span>
@@ -664,7 +705,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-example_2" class="md-nav__link">
+  <a href="#code-example_1" class="md-nav__link">
     <span class="md-ellipsis">
       Code Example
     </span>
@@ -931,6 +972,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.7.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.7.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.6.0/" class="md-nav__link">
         
   
@@ -1175,9 +1239,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-example" class="md-nav__link">
+  <a href="#pipeline-modes" class="md-nav__link">
     <span class="md-ellipsis">
-      Code Example
+      Pipeline Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-mode-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Text Mode Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#realtime-mode-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Realtime Mode Example
     </span>
   </a>
   
@@ -1208,7 +1290,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-example_1" class="md-nav__link">
+  <a href="#code-example" class="md-nav__link">
     <span class="md-ellipsis">
       Code Example
     </span>
@@ -1277,7 +1359,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-example_2" class="md-nav__link">
+  <a href="#code-example_1" class="md-nav__link">
     <span class="md-ellipsis">
       Code Example
     </span>
@@ -1601,6 +1683,7 @@
 <p>Click <strong>Save configuration</strong>.</p>
 <hr />
 <h2 id="voice-gateway-setup">Voice Gateway Setup<a class="headerlink" href="#voice-gateway-setup" title="Permanent link">&para;</a></h2>
+<p>The voice gateway supports two pipeline modes. See the <a href="../voice-gateway/">Voice Gateway Guide</a> for detailed configuration.</p>
 <h3 id="webhook-urls">Webhook URLs<a class="headerlink" href="#webhook-urls" title="Permanent link">&para;</a></h3>
 <p>Configure these URLs in Twilio Console:</p>
 <table>
@@ -1624,7 +1707,29 @@
 </tr>
 </tbody>
 </table>
-<h3 id="code-example">Code Example<a class="headerlink" href="#code-example" title="Permanent link">&para;</a></h3>
+<h3 id="pipeline-modes">Pipeline Modes<a class="headerlink" href="#pipeline-modes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Latency</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Text</strong></td>
+<td>500-1000ms</td>
+<td>Custom voices, domain-specific STT, tool calling</td>
+</tr>
+<tr>
+<td><strong>Realtime</strong></td>
+<td>100-200ms</td>
+<td>Natural conversation, low latency requirements</td>
+</tr>
+</tbody>
+</table>
+<h3 id="text-mode-example">Text Mode Example<a class="headerlink" href="#text-mode-example" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnivoice/gateway&quot;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nx">gw</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gateway</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gateway</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
@@ -1634,14 +1739,43 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nx">PublicURL</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;https://your-server.com&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">ListenAddr</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;:8080&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="c1">// Voice pipeline</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nx">STTProvider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deepgram&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nx">TTSProvider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;elevenlabs&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nx">LLMProvider</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;anthropic&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">})</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1">// Start handling calls</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nx">gw</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="c1">// Text mode: STT → LLM → TTS</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nx">STTProvider</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;deepgram&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nx">LLMProvider</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;anthropic&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nx">LLMModel</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;claude-sonnet-4-20250514&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nx">LLMSystemPrompt</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;You are a helpful voice assistant.&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="nx">TTSProvider</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;elevenlabs&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">})</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="nx">gw</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="realtime-mode-example">Realtime Mode Example<a class="headerlink" href="#realtime-mode-example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnivoice/gateway&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nx">coregateway</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omnivoice-core/gateway&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nx">openaiRealtime</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-openai/omnivoice/realtime&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nx">gw</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gateway</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gateway</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">AccountSID</span><span class="p">:</span><span class="w">  </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_ACCOUNT_SID&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nx">AuthToken</span><span class="p">:</span><span class="w">   </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_AUTH_TOKEN&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nx">PhoneNumber</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;+15551234567&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nx">PublicURL</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;https://your-server.com&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nx">ListenAddr</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;:8080&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="c1">// Realtime mode: ~100ms latency</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nx">Mode</span><span class="p">:</span><span class="w">             </span><span class="nx">coregateway</span><span class="p">.</span><span class="nx">PipelineModeRealtime</span><span class="p">,</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="nx">RealtimeProvider</span><span class="p">:</span><span class="w"> </span><span class="nx">openaiRealtime</span><span class="p">.</span><span class="nx">NewFactory</span><span class="p">(),</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="nx">RealtimeConfig</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">coregateway</span><span class="p">.</span><span class="nx">RealtimeConfig</span><span class="p">{</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="nx">Provider</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;openai&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">        </span><span class="nx">APIKey</span><span class="p">:</span><span class="w">       </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;OPENAI_API_KEY&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">        </span><span class="nx">Model</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;gpt-4o-realtime-preview-2024-12-17&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nx">Voice</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;alloy&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">        </span><span class="nx">Instructions</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;You are a helpful voice assistant.&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="p">})</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="nx">gw</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
 </code></pre></div>
 <hr />
 <h2 id="smsmms-setup">SMS/MMS Setup<a class="headerlink" href="#smsmms-setup" title="Permanent link">&para;</a></h2>
@@ -1663,32 +1797,32 @@
 </tr>
 </tbody>
 </table>
-<h3 id="code-example_1">Code Example<a class="headerlink" href="#code-example_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnichat&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_ACCOUNT_SID&quot;</span><span class="p">)),</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_AUTH_TOKEN&quot;</span><span class="p">)),</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithPhoneNumber</span><span class="p">(</span><span class="s">&quot;+15551234567&quot;</span><span class="p">),</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">)</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">// Connect provider</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">// Mount webhook handler</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nx">http</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="s">&quot;/webhook/twilio/sms&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">WebhookHandler</span><span class="p">())</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1">// Handle incoming messages</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">OnMessage</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">IncomingMessage</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;From: %s, Body: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">SenderID</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">Content</span><span class="p">)</span>
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="c1">// Handle MMS attachments</span>
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">media</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">Media</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Media: %s (%s)\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">media</span><span class="p">.</span><span class="nx">URL</span><span class="p">,</span><span class="w"> </span><span class="nx">media</span><span class="p">.</span><span class="nx">MimeType</span><span class="p">)</span>
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="p">})</span>
+<h3 id="code-example">Code Example<a class="headerlink" href="#code-example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnichat&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_ACCOUNT_SID&quot;</span><span class="p">)),</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_AUTH_TOKEN&quot;</span><span class="p">)),</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithPhoneNumber</span><span class="p">(</span><span class="s">&quot;+15551234567&quot;</span><span class="p">),</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1">// Connect provider</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">// Mount webhook handler</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nx">http</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="s">&quot;/webhook/twilio/sms&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">WebhookHandler</span><span class="p">())</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1">// Handle incoming messages</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">OnMessage</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">IncomingMessage</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;From: %s, Body: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">SenderID</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">Content</span><span class="p">)</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="c1">// Handle MMS attachments</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">media</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">Media</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Media: %s (%s)\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">media</span><span class="p">.</span><span class="nx">URL</span><span class="p">,</span><span class="w"> </span><span class="nx">media</span><span class="p">.</span><span class="nx">MimeType</span><span class="p">)</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="p">})</span>
 </code></pre></div>
 <hr />
 <h2 id="rcs-setup-rich-communication-services">RCS Setup (Rich Communication Services)<a class="headerlink" href="#rcs-setup-rich-communication-services" title="Permanent link">&para;</a></h2>
@@ -1718,30 +1852,30 @@
 <li>Copy the <strong>Messaging Service SID</strong> (starts with <code>MG</code>)</li>
 </ol>
 <h3 id="step-5-configure-environment">Step 5: Configure Environment<a class="headerlink" href="#step-5-configure-environment" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TWILIO_MESSAGING_SERVICE_SID</span><span class="o">=</span><span class="s2">&quot;MGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TWILIO_MESSAGING_SERVICE_SID</span><span class="o">=</span><span class="s2">&quot;MGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>
 </code></pre></div>
-<h3 id="code-example_2">Code Example<a class="headerlink" href="#code-example_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnichat&quot;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_ACCOUNT_SID&quot;</span><span class="p">)),</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_AUTH_TOKEN&quot;</span><span class="p">)),</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithMessagingServiceSid</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_MESSAGING_SERVICE_SID&quot;</span><span class="p">)),</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">// Messages sent via RCS with automatic SMS/MMS fallback</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">OutgoingMessage</span><span class="p">{</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nx">Content</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Hello via RCS!&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">})</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1">// Send with content template (rich cards)</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">OutgoingMessage</span><span class="p">{</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="nx">Content</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Order update&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="nx">Metadata</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="s">&quot;content_sid&quot;</span><span class="p">:</span><span class="w">       </span><span class="s">&quot;HXxxxxxxxx&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="s">&quot;content_variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">`{&quot;1&quot;: &quot;John&quot;, &quot;2&quot;: &quot;#12345&quot;}`</span><span class="p">,</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="p">})</span>
+<h3 id="code-example_1">Code Example<a class="headerlink" href="#code-example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omni-twilio/omnichat&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_ACCOUNT_SID&quot;</span><span class="p">)),</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_AUTH_TOKEN&quot;</span><span class="p">)),</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithMessagingServiceSid</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;TWILIO_MESSAGING_SERVICE_SID&quot;</span><span class="p">)),</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">// Messages sent via RCS with automatic SMS/MMS fallback</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">OutgoingMessage</span><span class="p">{</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nx">Content</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Hello via RCS!&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">})</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">// Send with content template (rich cards)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="nx">provider</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+15559876543&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">OutgoingMessage</span><span class="p">{</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nx">Content</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Order update&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="nx">Metadata</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="s">&quot;content_sid&quot;</span><span class="p">:</span><span class="w">       </span><span class="s">&quot;HXxxxxxxxx&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">        </span><span class="s">&quot;content_variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">`{&quot;1&quot;: &quot;John&quot;, &quot;2&quot;: &quot;#12345&quot;}`</span><span class="p">,</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="p">})</span>
 </code></pre></div>
 <hr />
 <h2 id="local-development-with-ngrok">Local Development with ngrok<a class="headerlink" href="#local-development-with-ngrok" title="Permanent link">&para;</a></h2>
@@ -1749,25 +1883,25 @@
 <ol>
 <li>Sign up at <a href="https://ngrok.com">ngrok.com</a></li>
 <li>Install ngrok:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># macOS</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>brew<span class="w"> </span>install<span class="w"> </span>ngrok
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Linux</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>snap<span class="w"> </span>install<span class="w"> </span>ngrok
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># macOS</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>brew<span class="w"> </span>install<span class="w"> </span>ngrok
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Linux</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>snap<span class="w"> </span>install<span class="w"> </span>ngrok
 </code></pre></div></li>
 <li>Authenticate:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ngrok<span class="w"> </span>config<span class="w"> </span>add-authtoken<span class="w"> </span>YOUR_AUTH_TOKEN
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ngrok<span class="w"> </span>config<span class="w"> </span>add-authtoken<span class="w"> </span>YOUR_AUTH_TOKEN
 </code></pre></div></li>
 </ol>
 <h3 id="start-ngrok-tunnel">Start ngrok Tunnel<a class="headerlink" href="#start-ngrok-tunnel" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Start your server on port 8080</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>go<span class="w"> </span>run<span class="w"> </span>main.go
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># In another terminal, start ngrok</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>ngrok<span class="w"> </span>http<span class="w"> </span><span class="m">8080</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Start your server on port 8080</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>go<span class="w"> </span>run<span class="w"> </span>main.go
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># In another terminal, start ngrok</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>ngrok<span class="w"> </span>http<span class="w"> </span><span class="m">8080</span>
 </code></pre></div>
 <p>ngrok will display a URL like:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Forwarding    https://abc123.ngrok.io -&gt; http://localhost:8080
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Forwarding    https://abc123.ngrok.io -&gt; http://localhost:8080
 </code></pre></div></p>
 <h3 id="update-twilio-webhooks">Update Twilio Webhooks<a class="headerlink" href="#update-twilio-webhooks" title="Permanent link">&para;</a></h3>
 <ol>
@@ -1842,13 +1976,13 @@
 </tbody>
 </table>
 <h3 id="enable-request-logging">Enable Request Logging<a class="headerlink" href="#enable-request-logging" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;log/slog&quot;</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">),</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">),</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithLogger</span><span class="p">(</span><span class="nx">slog</span><span class="p">.</span><span class="nx">Default</span><span class="p">()),</span><span class="w"> </span><span class="c1">// Enable logging</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;log/slog&quot;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAccountSID</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">),</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithAuthToken</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">),</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nx">omnichat</span><span class="p">.</span><span class="nx">WithLogger</span><span class="p">(</span><span class="nx">slog</span><span class="p">.</span><span class="nx">Default</span><span class="p">()),</span><span class="w"> </span><span class="c1">// Enable logging</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">)</span>
 </code></pre></div>
 <hr />
 <h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
@@ -1858,9 +1992,9 @@
 <p>Twilio requires HTTPS for all webhook URLs. ngrok provides this automatically for local development.</p>
 <h3 id="protect-auth-token">Protect Auth Token<a class="headerlink" href="#protect-auth-token" title="Permanent link">&para;</a></h3>
 <p>Never commit your Auth Token to version control:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># .gitignore</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>.env
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>.envrc
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># .gitignore</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>.env
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>.envrc
 </code></pre></div>
 <hr />
 <h2 id="environment-variables-reference">Environment Variables Reference<a class="headerlink" href="#environment-variables-reference" title="Permanent link">&para;</a></h2>
@@ -1898,9 +2032,8 @@
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../getting-started/overview/">Voice Gateway</a> - Full-duplex voice calls</li>
+<li><a href="../voice-gateway/">Voice Gateway Guide</a> - Full-duplex voice calls with text and realtime modes</li>
 <li><a href="../../getting-started/overview/#sms-omnichat">OmniChat Provider</a> - SMS/MMS integration</li>
-<li><a href="../../specs/features/rcs/PLAN/">RCS Implementation</a> - Rich messaging features</li>
 </ul>
 
 

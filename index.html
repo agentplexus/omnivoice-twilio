@@ -542,6 +542,29 @@
   
   
     <li class="md-nav__item">
+      <a href="guides/voice-gateway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Voice Gateway
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="guides/twilio-console/" class="md-nav__link">
         
   
@@ -609,6 +632,29 @@
             Releases
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="releases/v0.7.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.7.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -873,12 +919,14 @@
 <p>Go SDK for Twilio with adapters for <a href="https://github.com/plexusone/omnichat">OmniChat</a> (SMS) and <a href="https://github.com/plexusone/omnivoice-core">OmniVoice</a> (voice).</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Voice Gateway</strong>: Full-duplex phone calls with STT → LLM → TTS pipeline</li>
+<li><strong>Voice Gateway</strong>: Full-duplex phone calls with dual pipeline modes:</li>
+<li><strong>Text Mode</strong>: STT → LLM → TTS (500-1000ms latency, custom voices)</li>
+<li><strong>Realtime Mode</strong>: Native voice-to-voice (100-200ms latency)</li>
 <li><strong>Client</strong>: Exported Twilio REST API client for calls and SMS</li>
 <li><strong>Transport</strong>: Twilio Media Streams for real-time audio</li>
 <li><strong>TTS</strong>: Text-to-speech via Twilio's Say verb (Alice, Polly, Google voices)</li>
 <li><strong>STT</strong>: Speech recognition via Gather verb and real-time transcription</li>
-<li><strong>SMS</strong>: Send/receive SMS via OmniChat provider interface</li>
+<li><strong>SMS/MMS/RCS</strong>: Send/receive messages via OmniChat provider interface</li>
 </ul>
 <h2 id="package-structure">Package Structure<a class="headerlink" href="#package-structure" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>omni-twilio/
