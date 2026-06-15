@@ -10,6 +10,8 @@ require (
 	github.com/twilio/twilio-go v1.30.9
 )
 
+replace github.com/plexusone/omnivoice-core => ../omnivoice-core
+
 require (
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/golang/mock v1.6.0 // indirect
