@@ -6,11 +6,9 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/plexusone/omnichat v0.8.0
 	github.com/plexusone/omnillm-core v0.17.0
-	github.com/plexusone/omnivoice-core v0.13.0
+	github.com/plexusone/omnivoice-core v0.14.0
 	github.com/twilio/twilio-go v1.30.9
 )
-
-replace github.com/plexusone/omnivoice-core => ../omnivoice-core
 
 require (
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
