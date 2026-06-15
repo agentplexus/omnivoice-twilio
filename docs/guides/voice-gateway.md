@@ -220,6 +220,56 @@ LLMAPIKey:       os.Getenv("OPENAI_API_KEY"),
 LLMModel:        "gpt-4o",
 ```
 
+#### LLM Provider Injection (Advanced)
+
+By default, the gateway uses **thin providers** from omnillm-core (native HTTP implementations). For applications that need **thick providers** (official SDKs with additional features), you can inject a pre-configured LLM client.
+
+**Thin vs Thick Providers:**
+
+| Type | Package | Features |
+|------|---------|----------|
+| **Thin** | `omnillm-core` | Basic chat completion, minimal dependencies |
+| **Thick** | `omnillm` | Official SDKs, streaming, better error handling, full API support |
+
+**Injecting a Thick Provider:**
+
+```go
+import (
+    "github.com/plexusone/omni-twilio/omnivoice/gateway"
+    "github.com/plexusone/omnillm"
+)
+
+// Create omnillm client (imports thick providers automatically)
+llmClient, err := omnillm.NewClient(omnillm.ClientConfig{
+    Providers: []omnillm.ProviderConfig{
+        {
+            Provider: omnillm.ProviderNameAnthropic,
+            APIKey:   os.Getenv("ANTHROPIC_API_KEY"),
+        },
+    },
+})
+if err != nil {
+    panic(err)
+}
+
+// Inject the provider into gateway config
+gw, err := gateway.New(gateway.Config{
+    // ... Twilio config ...
+
+    // Inject thick provider (LLMProvider/LLMAPIKey are ignored when LLMClient is set)
+    LLMClient:       llmClient.Provider(),
+    LLMModel:        "claude-sonnet-4-20250514",
+    LLMSystemPrompt: "You are a helpful voice assistant.",
+})
+```
+
+**When to use thick providers:**
+
+- You need streaming responses
+- You want official SDK error handling and retries
+- You need features like conversation memory or caching from omnillm
+- You're building a larger application that already uses omnillm
+
 ### Realtime Providers
 
 #### OpenAI Realtime (~100ms latency)
