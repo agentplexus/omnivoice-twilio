@@ -28,6 +28,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
+	"github.com/plexusone/omnillm-core/provider"
 	coregateway "github.com/plexusone/omnivoice-core/gateway"
 
 	"github.com/plexusone/omni-twilio/client"
@@ -64,10 +65,15 @@ type Config struct {
 	TTSVoiceID  string
 	TTSModel    string
 
-	LLMProvider     string // e.g., "anthropic", "openai"
+	LLMProvider     string // e.g., "anthropic", "openai" (used with omnillm-core registry)
 	LLMAPIKey       string
 	LLMModel        string // e.g., "claude-sonnet-4-20250514"
 	LLMSystemPrompt string
+
+	// LLMClient is an optional pre-configured LLM provider.
+	// If provided, LLMProvider/LLMAPIKey are ignored and this client is used directly.
+	// This allows injecting thick providers (official SDKs) from the application.
+	LLMClient provider.Provider
 
 	// Realtime pipeline configuration (used when Mode == "realtime")
 	// Provide either RealtimeProvider directly or RealtimeConfig to create one.
