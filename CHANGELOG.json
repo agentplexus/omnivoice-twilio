@@ -7,6 +7,25 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.7.0",
+      "date": "2026-06-15",
+      "highlights": [
+        { "description": "Realtime voice-to-voice pipeline with ~100-200ms latency" },
+        { "description": "Dual pipeline modes: text (STT→LLM→TTS) or realtime (voice-to-voice)" }
+      ],
+      "added": [
+        { "description": "`Mode` config field to select pipeline mode (`text` or `realtime`)", "commit": "6a5fedb" },
+        { "description": "`RealtimeProvider` config field for realtime provider factory", "commit": "6a5fedb" },
+        { "description": "`RealtimeConfig` config field for realtime session configuration", "commit": "6a5fedb" },
+        { "description": "RealtimeBridge integration for native voice-to-voice conversations", "commit": "6a5fedb" },
+        { "description": "Support for OpenAI Realtime API (~100ms latency)", "commit": "6a5fedb" },
+        { "description": "Support for Gemini Live API (~200ms latency)", "commit": "6a5fedb" }
+      ],
+      "dependencies": [
+        { "description": "Update `github.com/plexusone/omnivoice-core` from v0.11.0 to v0.13.0", "commit": "de33b6b" }
+      ]
+    },
+    {
       "version": "v0.6.0",
       "date": "2026-06-13",
       "highlights": [
