@@ -1,0 +1,469 @@
+# Voice Gateway Guide
+
+The voice gateway enables full-duplex phone conversations with AI. It supports two pipeline modes optimized for different use cases.
+
+## Pipeline Modes
+
+| Mode | Latency | Best For |
+|------|---------|----------|
+| **Text** | 500-1000ms | Custom voices, domain-specific STT, tool calling |
+| **Realtime** | 100-200ms | Natural conversation, low latency requirements |
+
+### Text Mode (STT → LLM → TTS)
+
+Traditional pipeline that chains speech-to-text, language model, and text-to-speech:
+
+```
+Audio In → STT → Text → LLM → Text → TTS → Audio Out
+```
+
+**Advantages:**
+
+- Mix and match providers (Deepgram STT + Claude + ElevenLabs TTS)
+- Use custom/cloned voices
+- Full tool/function calling support
+- Domain-specific STT models
+
+**Trade-offs:**
+
+- Higher latency (500-1000ms round-trip)
+- Multiple API calls per turn
+
+### Realtime Mode (Voice-to-Voice)
+
+Native voice-to-voice using OpenAI Realtime API or Gemini Live:
+
+```
+Audio In → Realtime API → Audio Out
+```
+
+**Advantages:**
+
+- Ultra-low latency (~100-200ms)
+- Natural conversation flow
+- Single API connection
+
+**Trade-offs:**
+
+- Limited to OpenAI or Google voices
+- Provider-specific tool calling
+
+---
+
+## Quick Start
+
+### Text Mode
+
+```go
+package main
+
+import (
+    "context"
+    "os"
+
+    "github.com/plexusone/omni-twilio/omnivoice/gateway"
+)
+
+func main() {
+    gw, err := gateway.New(gateway.Config{
+        // Twilio credentials
+        AccountSID:  os.Getenv("TWILIO_ACCOUNT_SID"),
+        AuthToken:   os.Getenv("TWILIO_AUTH_TOKEN"),
+        PhoneNumber: "+15551234567",
+
+        // Server
+        PublicURL:  "https://your-server.com",
+        ListenAddr: ":8080",
+
+        // STT provider
+        STTProvider: "deepgram",
+        STTAPIKey:   os.Getenv("DEEPGRAM_API_KEY"),
+
+        // LLM provider
+        LLMProvider:     "anthropic",
+        LLMAPIKey:       os.Getenv("ANTHROPIC_API_KEY"),
+        LLMModel:        "claude-sonnet-4-20250514",
+        LLMSystemPrompt: "You are a helpful voice assistant. Keep responses brief.",
+
+        // TTS provider
+        TTSProvider: "elevenlabs",
+        TTSAPIKey:   os.Getenv("ELEVENLABS_API_KEY"),
+        TTSVoiceID:  "21m00Tcm4TlvDq8ikWAM", // Rachel
+    })
+    if err != nil {
+        panic(err)
+    }
+
+    // Handle incoming calls
+    gw.OnCall(func(call *gateway.CallInfo) error {
+        return nil // Accept all calls
+    })
+
+    // Start gateway
+    ctx := context.Background()
+    gw.Start(ctx)
+}
+```
+
+### Realtime Mode
+
+```go
+package main
+
+import (
+    "context"
+    "os"
+
+    "github.com/plexusone/omni-twilio/omnivoice/gateway"
+    coregateway "github.com/plexusone/omnivoice-core/gateway"
+    openaiRealtime "github.com/plexusone/omni-openai/omnivoice/realtime"
+)
+
+func main() {
+    gw, err := gateway.New(gateway.Config{
+        // Twilio credentials
+        AccountSID:  os.Getenv("TWILIO_ACCOUNT_SID"),
+        AuthToken:   os.Getenv("TWILIO_AUTH_TOKEN"),
+        PhoneNumber: "+15551234567",
+
+        // Server
+        PublicURL:  "https://your-server.com",
+        ListenAddr: ":8080",
+
+        // Enable realtime mode
+        Mode:             coregateway.PipelineModeRealtime,
+        RealtimeProvider: openaiRealtime.NewFactory(),
+        RealtimeConfig: &coregateway.RealtimeConfig{
+            Provider:     "openai",
+            APIKey:       os.Getenv("OPENAI_API_KEY"),
+            Model:        "gpt-4o-realtime-preview-2024-12-17",
+            Voice:        "alloy",
+            Instructions: "You are a helpful voice assistant. Keep responses brief.",
+        },
+    })
+    if err != nil {
+        panic(err)
+    }
+
+    gw.OnCall(func(call *gateway.CallInfo) error {
+        return nil
+    })
+
+    ctx := context.Background()
+    gw.Start(ctx)
+}
+```
+
+---
+
+## Provider Configuration
+
+### Text Mode Providers
+
+#### STT Providers
+
+| Provider | Environment Variable | Model |
+|----------|---------------------|-------|
+| Deepgram | `DEEPGRAM_API_KEY` | nova-2 (default) |
+| OpenAI | `OPENAI_API_KEY` | whisper-1 |
+| ElevenLabs | `ELEVENLABS_API_KEY` | scribe |
+
+```go
+// Deepgram (recommended for real-time)
+STTProvider: "deepgram",
+STTAPIKey:   os.Getenv("DEEPGRAM_API_KEY"),
+STTModel:    "nova-2",
+STTLanguage: "en",
+
+// OpenAI Whisper
+STTProvider: "openai",
+STTAPIKey:   os.Getenv("OPENAI_API_KEY"),
+```
+
+#### TTS Providers
+
+| Provider | Environment Variable | Voices |
+|----------|---------------------|--------|
+| ElevenLabs | `ELEVENLABS_API_KEY` | 100+ voices, cloning |
+| OpenAI | `OPENAI_API_KEY` | alloy, echo, fable, onyx, nova, shimmer |
+| Deepgram | `DEEPGRAM_API_KEY` | aura voices |
+
+```go
+// ElevenLabs (recommended for quality)
+TTSProvider: "elevenlabs",
+TTSAPIKey:   os.Getenv("ELEVENLABS_API_KEY"),
+TTSVoiceID:  "21m00Tcm4TlvDq8ikWAM", // Rachel
+
+// OpenAI
+TTSProvider: "openai",
+TTSAPIKey:   os.Getenv("OPENAI_API_KEY"),
+TTSVoiceID:  "alloy",
+```
+
+#### LLM Providers
+
+| Provider | Environment Variable | Models |
+|----------|---------------------|--------|
+| Anthropic | `ANTHROPIC_API_KEY` | claude-sonnet-4, claude-opus-4 |
+| OpenAI | `OPENAI_API_KEY` | gpt-4o, gpt-4-turbo |
+
+```go
+// Anthropic Claude
+LLMProvider:     "anthropic",
+LLMAPIKey:       os.Getenv("ANTHROPIC_API_KEY"),
+LLMModel:        "claude-sonnet-4-20250514",
+LLMSystemPrompt: "You are a helpful assistant...",
+
+// OpenAI
+LLMProvider:     "openai",
+LLMAPIKey:       os.Getenv("OPENAI_API_KEY"),
+LLMModel:        "gpt-4o",
+```
+
+### Realtime Providers
+
+#### OpenAI Realtime (~100ms latency)
+
+```go
+import openaiRealtime "github.com/plexusone/omni-openai/omnivoice/realtime"
+
+Mode:             coregateway.PipelineModeRealtime,
+RealtimeProvider: openaiRealtime.NewFactory(),
+RealtimeConfig: &coregateway.RealtimeConfig{
+    Provider:     "openai",
+    APIKey:       os.Getenv("OPENAI_API_KEY"),
+    Model:        "gpt-4o-realtime-preview-2024-12-17",
+    Voice:        "alloy", // alloy, echo, fable, onyx, nova, shimmer
+    Instructions: "You are a helpful assistant.",
+},
+```
+
+#### Gemini Live (~200ms latency)
+
+```go
+import googleRealtime "github.com/plexusone/omni-google/omnivoice/realtime"
+
+Mode:             coregateway.PipelineModeRealtime,
+RealtimeProvider: googleRealtime.NewFactory(),
+RealtimeConfig: &coregateway.RealtimeConfig{
+    Provider:     "gemini",
+    APIKey:       os.Getenv("GOOGLE_API_KEY"),
+    Model:        "gemini-2.0-flash-live",
+    Voice:        "Puck", // Puck, Charon, Kore, Fenrir, Aoede
+    Instructions: "You are a helpful assistant.",
+},
+```
+
+---
+
+## Session Management
+
+### Handling Calls
+
+```go
+// Accept/reject incoming calls
+gw.OnCall(func(call *gateway.CallInfo) error {
+    log.Printf("Call from %s to %s", call.From, call.To)
+
+    // Return nil to accept, error to reject
+    if isBlocked(call.From) {
+        return fmt.Errorf("blocked caller")
+    }
+    return nil
+})
+```
+
+### Session Events
+
+```go
+session, ok := gw.GetSession(callSID)
+if !ok {
+    return
+}
+
+for event := range session.Events() {
+    switch event.Type {
+    case gateway.EventSessionStarted:
+        log.Println("Call connected")
+
+    case gateway.EventUserTranscript:
+        log.Printf("User: %s", event.Data)
+
+    case gateway.EventAgentTranscript:
+        log.Printf("Agent: %s", event.Data)
+
+    case gateway.EventToolCall:
+        log.Printf("Tool called: %v", event.Data)
+
+    case gateway.EventInterruption:
+        log.Println("User interrupted")
+
+    case gateway.EventSessionEnded:
+        log.Println("Call ended")
+        return
+
+    case gateway.EventError:
+        log.Printf("Error: %v", event.Error)
+    }
+}
+```
+
+### Session Metrics
+
+```go
+metrics := session.Metrics()
+log.Printf("Duration: %s", metrics.Duration)
+log.Printf("User turns: %d", metrics.UserTurnCount)
+log.Printf("Agent turns: %d", metrics.AgentTurnCount)
+log.Printf("Interruptions: %d", metrics.InterruptionCount)
+```
+
+---
+
+## Tool Calling (Text Mode)
+
+Define tools for the LLM to call during conversation:
+
+```go
+gw, err := gateway.New(gateway.Config{
+    // ... other config ...
+
+    Tools: []gateway.ToolDefinition{
+        {
+            Name:        "get_weather",
+            Description: "Get current weather for a location",
+            Parameters: map[string]any{
+                "type": "object",
+                "properties": map[string]any{
+                    "location": map[string]any{
+                        "type":        "string",
+                        "description": "City name",
+                    },
+                },
+                "required": []string{"location"},
+            },
+        },
+        {
+            Name:        "schedule_appointment",
+            Description: "Schedule an appointment",
+            Parameters: map[string]any{
+                "type": "object",
+                "properties": map[string]any{
+                    "date": map[string]any{"type": "string"},
+                    "time": map[string]any{"type": "string"},
+                },
+                "required": []string{"date", "time"},
+            },
+        },
+    },
+
+    ToolHandlers: map[string]gateway.ToolHandler{
+        "get_weather": func(ctx context.Context, args map[string]any) (string, error) {
+            location := args["location"].(string)
+            // Call weather API
+            return fmt.Sprintf("It's 72°F and sunny in %s", location), nil
+        },
+        "schedule_appointment": func(ctx context.Context, args map[string]any) (string, error) {
+            // Schedule the appointment
+            return "Appointment scheduled successfully", nil
+        },
+    },
+})
+```
+
+---
+
+## Greeting Message
+
+Play a greeting when the call connects:
+
+```go
+gw, err := gateway.New(gateway.Config{
+    // ... other config ...
+
+    Greeting: "Hello! Thank you for calling. How can I help you today?",
+})
+```
+
+---
+
+## Session Limits
+
+Configure session behavior:
+
+```go
+gw, err := gateway.New(gateway.Config{
+    // ... other config ...
+
+    // Maximum call duration (default: 30 minutes)
+    MaxSessionDuration: 15 * time.Minute,
+
+    // Interruption handling
+    // "immediate" - Stop speaking immediately when user talks
+    // "after_sentence" - Finish current sentence
+    // "disabled" - Don't allow interruptions
+    InterruptionMode: "immediate",
+})
+```
+
+---
+
+## Choosing a Pipeline Mode
+
+### Use Text Mode When:
+
+- You need custom or cloned voices (ElevenLabs)
+- You require domain-specific STT (medical, legal terminology)
+- You need complex tool calling workflows
+- Latency of 500-1000ms is acceptable
+- You want to mix best-of-breed providers
+
+### Use Realtime Mode When:
+
+- Low latency is critical (<300ms)
+- Natural conversation flow is important
+- OpenAI or Google voices are acceptable
+- You want simpler architecture (single API)
+
+---
+
+## Environment Variables
+
+### Text Mode
+
+```bash
+# Twilio
+export TWILIO_ACCOUNT_SID="ACxxxxxxxx"
+export TWILIO_AUTH_TOKEN="your-token"
+
+# STT (choose one)
+export DEEPGRAM_API_KEY="your-key"
+export OPENAI_API_KEY="your-key"
+
+# LLM (choose one)
+export ANTHROPIC_API_KEY="your-key"
+export OPENAI_API_KEY="your-key"
+
+# TTS (choose one)
+export ELEVENLABS_API_KEY="your-key"
+export OPENAI_API_KEY="your-key"
+```
+
+### Realtime Mode
+
+```bash
+# Twilio
+export TWILIO_ACCOUNT_SID="ACxxxxxxxx"
+export TWILIO_AUTH_TOKEN="your-token"
+
+# Realtime provider (choose one)
+export OPENAI_API_KEY="your-key"
+export GOOGLE_API_KEY="your-key"
+```
+
+---
+
+## Next Steps
+
+- [Twilio Console Setup](twilio-console.md) - Configure webhooks
+- [v0.7.0 Release Notes](../releases/v0.7.0.md) - Full changelog

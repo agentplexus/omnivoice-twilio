@@ -64,6 +64,8 @@ Click **Save configuration**.
 
 ## Voice Gateway Setup
 
+The voice gateway supports two pipeline modes. See the [Voice Gateway Guide](voice-gateway.md) for detailed configuration.
+
 ### Webhook URLs
 
 Configure these URLs in Twilio Console:
@@ -73,7 +75,14 @@ Configure these URLs in Twilio Console:
 | Voice URL | `/voice/inbound` | Handles incoming calls |
 | Status Callback | `/voice/status` | Call status updates |
 
-### Code Example
+### Pipeline Modes
+
+| Mode | Latency | Best For |
+|------|---------|----------|
+| **Text** | 500-1000ms | Custom voices, domain-specific STT, tool calling |
+| **Realtime** | 100-200ms | Natural conversation, low latency requirements |
+
+### Text Mode Example
 
 ```go
 import "github.com/plexusone/omni-twilio/omnivoice/gateway"
@@ -85,13 +94,45 @@ gw, err := gateway.New(gateway.Config{
     PublicURL:   "https://your-server.com",
     ListenAddr:  ":8080",
 
-    // Voice pipeline
-    STTProvider: "deepgram",
-    TTSProvider: "elevenlabs",
-    LLMProvider: "anthropic",
+    // Text mode: STT → LLM → TTS
+    STTProvider:     "deepgram",
+    LLMProvider:     "anthropic",
+    LLMModel:        "claude-sonnet-4-20250514",
+    LLMSystemPrompt: "You are a helpful voice assistant.",
+    TTSProvider:     "elevenlabs",
 })
 
-// Start handling calls
+gw.Start(ctx)
+```
+
+### Realtime Mode Example
+
+```go
+import (
+    "github.com/plexusone/omni-twilio/omnivoice/gateway"
+    coregateway "github.com/plexusone/omnivoice-core/gateway"
+    openaiRealtime "github.com/plexusone/omni-openai/omnivoice/realtime"
+)
+
+gw, err := gateway.New(gateway.Config{
+    AccountSID:  os.Getenv("TWILIO_ACCOUNT_SID"),
+    AuthToken:   os.Getenv("TWILIO_AUTH_TOKEN"),
+    PhoneNumber: "+15551234567",
+    PublicURL:   "https://your-server.com",
+    ListenAddr:  ":8080",
+
+    // Realtime mode: ~100ms latency
+    Mode:             coregateway.PipelineModeRealtime,
+    RealtimeProvider: openaiRealtime.NewFactory(),
+    RealtimeConfig: &coregateway.RealtimeConfig{
+        Provider:     "openai",
+        APIKey:       os.Getenv("OPENAI_API_KEY"),
+        Model:        "gpt-4o-realtime-preview-2024-12-17",
+        Voice:        "alloy",
+        Instructions: "You are a helpful voice assistant.",
+    },
+})
+
 gw.Start(ctx)
 ```
 
@@ -335,6 +376,5 @@ Never commit your Auth Token to version control:
 
 ## Next Steps
 
-- [Voice Gateway](../getting-started/overview.md) - Full-duplex voice calls
+- [Voice Gateway Guide](voice-gateway.md) - Full-duplex voice calls with text and realtime modes
 - [OmniChat Provider](../getting-started/overview.md#sms-omnichat) - SMS/MMS integration
-- [RCS Implementation](../specs/features/rcs/PLAN.md) - Rich messaging features

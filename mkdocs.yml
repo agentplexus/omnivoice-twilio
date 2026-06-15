@@ -50,6 +50,7 @@ nav:
       - Overview: getting-started/overview.md
       - Installation: getting-started/installation.md
   - Guides:
+      - Voice Gateway: guides/voice-gateway.md
       - Twilio Console Setup: guides/twilio-console.md
   - Releases:
       - v0.7.0: releases/v0.7.0.md
