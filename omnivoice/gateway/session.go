@@ -7,6 +7,7 @@ import (
 	"time"
 
 	coregateway "github.com/plexusone/omnivoice-core/gateway"
+	"github.com/plexusone/omnivoice-core/realtime"
 )
 
 // Verify interface compliance at compile time.
@@ -24,13 +25,15 @@ type Session struct {
 	done      chan struct{}
 	logger    *slog.Logger
 
-	mu         sync.RWMutex
-	conn       *mediaStreamConn
-	pipeline   *Pipeline
-	transcript []coregateway.Turn
-	metrics    coregateway.Metrics
-	closed     bool
-	closeOnce  sync.Once
+	mu             sync.RWMutex
+	conn           *mediaStreamConn
+	pipeline       *Pipeline            // Text mode pipeline (STT→LLM→TTS)
+	realtimeBridge *coregateway.RealtimeBridge // Realtime mode bridge
+	realtimeProvider realtime.Provider   // Realtime provider instance
+	transcript     []coregateway.Turn
+	metrics        coregateway.Metrics
+	closed         bool
+	closeOnce      sync.Once
 }
 
 // Type aliases for core gateway types.
@@ -114,6 +117,7 @@ func (s *Session) Metrics() coregateway.Metrics {
 }
 
 // SendText sends text input to the agent (bypasses STT).
+// Note: In realtime mode, this method is not supported as audio is processed directly.
 func (s *Session) SendText(text string) error {
 	s.mu.RLock()
 	pipeline := s.pipeline
@@ -130,10 +134,15 @@ func (s *Session) SendText(text string) error {
 func (s *Session) Interrupt() {
 	s.mu.RLock()
 	pipeline := s.pipeline
+	bridge := s.realtimeBridge
 	s.mu.RUnlock()
 
 	if pipeline != nil {
 		pipeline.Interrupt()
+	}
+
+	if bridge != nil {
+		bridge.Interrupt()
 	}
 
 	s.emitEvent(EventInterruption, nil)
@@ -151,9 +160,17 @@ func (s *Session) Close() error {
 
 		close(s.done)
 
-		// Stop pipeline
+		// Stop text pipeline
 		if s.pipeline != nil {
 			s.pipeline.Stop()
+		}
+
+		// Stop realtime bridge and provider
+		if s.realtimeBridge != nil {
+			_ = s.realtimeBridge.Close()
+		}
+		if s.realtimeProvider != nil {
+			_ = s.realtimeProvider.Close()
 		}
 
 		// Close connection
@@ -180,6 +197,21 @@ func (s *Session) startPipeline(conn *mediaStreamConn) {
 	s.conn = conn
 	s.mu.Unlock()
 
+	ctx, cancel := context.WithTimeout(context.Background(), s.gateway.config.MaxSessionDuration)
+	defer cancel()
+
+	// Check if we should use realtime mode
+	if s.gateway.config.Mode == coregateway.PipelineModeRealtime {
+		s.startRealtimePipeline(ctx, conn)
+		return
+	}
+
+	// Text mode: use STT→LLM→TTS pipeline
+	s.startTextPipeline(ctx, conn)
+}
+
+// startTextPipeline starts the traditional STT→LLM→TTS pipeline.
+func (s *Session) startTextPipeline(ctx context.Context, conn *mediaStreamConn) {
 	// Create pipeline
 	pipeline, err := NewPipeline(s)
 	if err != nil {
@@ -195,12 +227,135 @@ func (s *Session) startPipeline(conn *mediaStreamConn) {
 	s.emitEvent(EventSessionStarted, nil)
 
 	// Start pipeline
-	ctx, cancel := context.WithTimeout(context.Background(), s.gateway.config.MaxSessionDuration)
-	defer cancel()
-
 	if err := pipeline.Start(ctx); err != nil {
 		s.logger.Error("pipeline error", "error", err)
 		s.emitEvent(EventError, err)
+	}
+}
+
+// startRealtimePipeline starts the native voice-to-voice pipeline using RealtimeBridge.
+func (s *Session) startRealtimePipeline(ctx context.Context, conn *mediaStreamConn) {
+	cfg := s.gateway.config
+
+	// Create the realtime provider
+	var provider realtime.Provider
+	var err error
+
+	if cfg.RealtimeProvider != nil && cfg.RealtimeConfig != nil {
+		provider, err = cfg.RealtimeProvider.Create(cfg.RealtimeConfig)
+		if err != nil {
+			s.logger.Error("failed to create realtime provider", "error", err)
+			s.emitEvent(EventError, err)
+			return
+		}
+	} else {
+		s.logger.Error("realtime mode requires RealtimeProvider and RealtimeConfig")
+		s.emitEvent(EventError, err)
+		return
+	}
+
+	s.mu.Lock()
+	s.realtimeProvider = provider
+	s.mu.Unlock()
+
+	// Create the realtime bridge
+	bridge := coregateway.NewRealtimeBridgeForTwilio(provider, cfg.RealtimeConfig.ToProcessConfig())
+
+	s.mu.Lock()
+	s.realtimeBridge = bridge
+	s.mu.Unlock()
+
+	// Start the bridge
+	if err := bridge.Start(ctx); err != nil {
+		s.logger.Error("failed to start realtime bridge", "error", err)
+		s.emitEvent(EventError, err)
+		return
+	}
+
+	s.emitEvent(EventSessionStarted, nil)
+
+	// Forward bridge events to session events
+	go s.forwardBridgeEvents(ctx, bridge)
+
+	// Forward audio from Twilio to bridge
+	go s.forwardInboundAudio(ctx, conn, bridge)
+
+	// Forward audio from bridge to Twilio
+	go s.forwardOutboundAudio(ctx, conn, bridge)
+
+	// Wait for context cancellation
+	<-ctx.Done()
+}
+
+// forwardBridgeEvents forwards events from the bridge to the session event channel.
+func (s *Session) forwardBridgeEvents(ctx context.Context, bridge *coregateway.RealtimeBridge) {
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-s.done:
+			return
+		case event, ok := <-bridge.Events():
+			if !ok {
+				return
+			}
+
+			// Convert bridge event to session event
+			s.emitEvent(event.Type, event.Data)
+
+			// Update transcript for transcript events
+			if event.Type == EventUserTranscript || event.Type == EventAgentTranscript {
+				if text, ok := event.Data.(string); ok {
+					role := "user"
+					if event.Type == EventAgentTranscript {
+						role = "agent"
+					}
+					s.addTurn(coregateway.Turn{
+						Role:      role,
+						Text:      text,
+						Timestamp: event.Timestamp,
+					})
+				}
+			}
+		}
+	}
+}
+
+// forwardInboundAudio forwards audio from Twilio WebSocket to the realtime bridge.
+func (s *Session) forwardInboundAudio(ctx context.Context, conn *mediaStreamConn, bridge *coregateway.RealtimeBridge) {
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-s.done:
+			return
+		case audio, ok := <-conn.audioIn:
+			if !ok {
+				return
+			}
+			if err := bridge.SendAudio(audio); err != nil {
+				s.logger.Warn("failed to send audio to bridge", "error", err)
+			}
+		}
+	}
+}
+
+// forwardOutboundAudio forwards audio from the realtime bridge to Twilio WebSocket.
+func (s *Session) forwardOutboundAudio(ctx context.Context, conn *mediaStreamConn, bridge *coregateway.RealtimeBridge) {
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-s.done:
+			return
+		case audio, ok := <-bridge.AudioOut():
+			if !ok {
+				return
+			}
+			if err := conn.sendAudio(audio); err != nil {
+				s.logger.Warn("failed to send audio to Twilio", "error", err)
+			}
+		}
 	}
 }
 

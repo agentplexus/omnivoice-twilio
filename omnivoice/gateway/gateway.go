@@ -50,7 +50,10 @@ type Config struct {
 	PublicURL  string       // e.g., "https://your-server.com"
 	Listener   net.Listener // Optional external listener (e.g., ngrok)
 
-	// Voice pipeline configuration
+	// Pipeline mode: "text" (STT→LLM→TTS) or "realtime" (voice-to-voice)
+	Mode coregateway.PipelineMode
+
+	// Voice pipeline configuration (used when Mode == "text")
 	STTProvider string // e.g., "deepgram", "whisper"
 	STTAPIKey   string
 	STTModel    string
@@ -65,6 +68,11 @@ type Config struct {
 	LLMAPIKey       string
 	LLMModel        string // e.g., "claude-sonnet-4-20250514"
 	LLMSystemPrompt string
+
+	// Realtime pipeline configuration (used when Mode == "realtime")
+	// Provide either RealtimeProvider directly or RealtimeConfig to create one.
+	RealtimeProvider coregateway.RealtimeProviderFactory
+	RealtimeConfig   *coregateway.RealtimeConfig
 
 	// Tools available to the LLM
 	Tools        []ToolDefinition
