@@ -3,9 +3,13 @@ package gateway
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net"
+	"time"
 
+	"github.com/plexusone/omnillm-core/provider"
 	omnivoice "github.com/plexusone/omnivoice-core"
+	coregateway "github.com/plexusone/omnivoice-core/gateway"
 	"github.com/plexusone/omnivoice-core/registry"
 )
 
@@ -30,10 +34,13 @@ func NewGatewayProvider(cfg registry.ProviderConfig) (registry.Gateway, error) {
 	if v := getExtString(cfg.Extensions, "publicURL"); v != "" {
 		config.PublicURL = v
 	}
-	if v, ok := cfg.Extensions["listener"]; ok {
-		if listener, ok := v.(net.Listener); ok {
-			config.Listener = listener
-		}
+	if v, ok := cfg.Extensions["listener"].(net.Listener); ok {
+		config.Listener = v
+	}
+
+	// Pipeline mode
+	if v := getExtString(cfg.Extensions, "pipelineMode"); v != "" {
+		config.Mode = coregateway.PipelineMode(v)
 	}
 
 	// STT configuration
@@ -68,11 +75,47 @@ func NewGatewayProvider(cfg registry.ProviderConfig) (registry.Gateway, error) {
 	if v := getExtString(cfg.Extensions, "llmProvider"); v != "" {
 		config.LLMProvider = v
 	}
+	if v := getExtString(cfg.Extensions, "llmAPIKey"); v != "" {
+		config.LLMAPIKey = v
+	}
 	if v := getExtString(cfg.Extensions, "llmModel"); v != "" {
 		config.LLMModel = v
 	}
 	if v := getExtString(cfg.Extensions, "llmSystemPrompt"); v != "" {
 		config.LLMSystemPrompt = v
+	}
+	if v, ok := cfg.Extensions["llmClient"].(provider.Provider); ok {
+		config.LLMClient = v
+	}
+
+	// Tools configuration (type-safe)
+	if v, ok := cfg.Extensions["tools"].([]ToolDefinition); ok {
+		config.Tools = v
+	}
+	if v, ok := cfg.Extensions["toolHandlers"].(map[string]ToolHandler); ok {
+		config.ToolHandlers = v
+	}
+
+	// Session configuration
+	if v := getExtString(cfg.Extensions, "greeting"); v != "" {
+		config.Greeting = v
+	}
+	if v, ok := cfg.Extensions["maxSessionDuration"].(time.Duration); ok {
+		config.MaxSessionDuration = v
+	}
+	if v := getExtString(cfg.Extensions, "interruptionMode"); v != "" {
+		config.InterruptionMode = v
+	}
+	if v, ok := cfg.Extensions["logger"].(*slog.Logger); ok {
+		config.Logger = v
+	}
+
+	// Realtime configuration (type-safe)
+	if v, ok := cfg.Extensions["realtimeProviderFactory"].(coregateway.RealtimeProviderFactory); ok {
+		config.RealtimeProvider = v
+	}
+	if v, ok := cfg.Extensions["realtimeConfig"].(*coregateway.RealtimeConfig); ok {
+		config.RealtimeConfig = v
 	}
 
 	// Validate required fields
@@ -108,6 +151,11 @@ func (w *gatewayWrapper) Start(ctx any) error {
 
 func (w *gatewayWrapper) Stop() error {
 	return w.gw.Stop()
+}
+
+// Gateway returns the underlying Twilio Gateway for full API access.
+func (w *gatewayWrapper) Gateway() *Gateway {
+	return w.gw
 }
 
 func getExtString(ext map[string]any, key string) string {
