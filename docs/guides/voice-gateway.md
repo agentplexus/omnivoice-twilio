@@ -513,7 +513,62 @@ export GOOGLE_API_KEY="your-key"
 
 ---
 
+## Registry Pattern
+
+Instead of direct construction with `gateway.New()`, you can use omnivoice-core's provider registry for automatic discovery. This is useful when building applications that work with multiple gateway providers.
+
+```go
+import (
+    omnivoice "github.com/plexusone/omnivoice-core"
+    "github.com/plexusone/omnivoice-core/registry"
+    _ "github.com/plexusone/omni-twilio/omnivoice/gateway" // Auto-register
+)
+
+// Get gateway via registry
+gw, err := omnivoice.GetGatewayProvider("twilio",
+    registry.WithAPIKey(os.Getenv("TWILIO_AUTH_TOKEN")),
+    registry.WithExtension("accountSID", os.Getenv("TWILIO_ACCOUNT_SID")),
+    registry.WithExtension("phoneNumber", "+15551234567"),
+    registry.WithExtension("publicURL", "https://your-server.com"),
+    registry.WithExtension("listenAddr", ":8080"),
+)
+```
+
+### Type-Safe Options
+
+For provider-specific configuration, use the type-safe option functions:
+
+```go
+import "github.com/plexusone/omni-twilio/omnivoice/gateway"
+
+gw, err := omnivoice.GetGatewayProvider("twilio",
+    registry.WithAPIKey(os.Getenv("TWILIO_AUTH_TOKEN")),
+    // Type-safe options
+    gateway.WithTools([]gateway.ToolDefinition{...}),
+    gateway.WithToolHandlers(handlers),
+    gateway.WithLLMClient(myLLMProvider),
+    gateway.WithRealtimeProviderFactory(openaiRealtime.NewFactory()),
+    gateway.WithRealtimeConfig(&coregateway.RealtimeConfig{...}),
+)
+```
+
+### Accessing the Underlying Gateway
+
+The registry returns a wrapper type. To access the full Twilio Gateway API:
+
+```go
+wrapper := gw.(*gateway.GatewayWrapper)
+twilioGw := wrapper.Gateway()
+
+// Now use Twilio-specific methods
+twilioGw.OnCall(func(call *gateway.CallInfo) error {
+    return nil
+})
+```
+
+---
+
 ## Next Steps
 
 - [Twilio Console Setup](twilio-console.md) - Configure webhooks
-- [v0.7.0 Release Notes](../releases/v0.7.0.md) - Full changelog
+- [v0.8.0 Release Notes](../releases/v0.8.0.md) - Registry integration details
