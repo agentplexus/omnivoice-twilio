@@ -7,6 +7,24 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.8.0",
+      "date": "2026-06-15",
+      "highlights": [
+        { "description": "Registry integration with omnivoice-core for automatic provider discovery" },
+        { "description": "Type-safe registry options for provider-specific configuration" }
+      ],
+      "added": [
+        { "description": "Registry integration with omnivoice-core via side-effect imports", "commit": "00573fb" },
+        { "description": "Type-safe registry options (`WithTools`, `WithToolHandlers`, `WithToolHandler`)", "commit": "f549d85" },
+        { "description": "Registry options for provider injection (`WithLLMClient`, `WithRealtimeProviderFactory`, `WithRealtimeConfig`)", "commit": "f549d85" },
+        { "description": "Enhanced factory with typed extension handling for tools, handlers, and providers", "commit": "3eb5da2" },
+        { "description": "`Gateway()` method on wrapper for accessing underlying Twilio Gateway type", "commit": "3eb5da2" }
+      ],
+      "dependencies": [
+        { "description": "`github.com/plexusone/omnivoice-core` v0.13.0 → v0.14.0", "commit": "1cda27e" }
+      ]
+    },
+    {
       "version": "v0.7.0",
       "date": "2026-06-15",
       "highlights": [
