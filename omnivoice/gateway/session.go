@@ -25,15 +25,15 @@ type Session struct {
 	done      chan struct{}
 	logger    *slog.Logger
 
-	mu             sync.RWMutex
-	conn           *mediaStreamConn
-	pipeline       *Pipeline            // Text mode pipeline (STT→LLM→TTS)
-	realtimeBridge *coregateway.RealtimeBridge // Realtime mode bridge
-	realtimeProvider realtime.Provider   // Realtime provider instance
-	transcript     []coregateway.Turn
-	metrics        coregateway.Metrics
-	closed         bool
-	closeOnce      sync.Once
+	mu               sync.RWMutex
+	conn             *mediaStreamConn
+	pipeline         *Pipeline                   // Text mode pipeline (STT→LLM→TTS)
+	realtimeBridge   *coregateway.RealtimeBridge // Realtime mode bridge
+	realtimeProvider realtime.Provider           // Realtime provider instance
+	transcript       []coregateway.Turn
+	metrics          coregateway.Metrics
+	closed           bool
+	closeOnce        sync.Once
 }
 
 // Type aliases for core gateway types.
@@ -211,7 +211,7 @@ func (s *Session) startPipeline(conn *mediaStreamConn) {
 }
 
 // startTextPipeline starts the traditional STT→LLM→TTS pipeline.
-func (s *Session) startTextPipeline(ctx context.Context, conn *mediaStreamConn) {
+func (s *Session) startTextPipeline(ctx context.Context, _ *mediaStreamConn) {
 	// Create pipeline
 	pipeline, err := NewPipeline(s)
 	if err != nil {
