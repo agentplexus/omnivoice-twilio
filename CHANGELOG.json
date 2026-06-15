@@ -11,7 +11,8 @@
       "date": "2026-06-15",
       "highlights": [
         { "description": "Realtime voice-to-voice pipeline with ~100-200ms latency" },
-        { "description": "Dual pipeline modes: text (STT→LLM→TTS) or realtime (voice-to-voice)" }
+        { "description": "Dual pipeline modes: text (STT→LLM→TTS) or realtime (voice-to-voice)" },
+        { "description": "LLM provider injection via `LLMClient` config field" }
       ],
       "added": [
         { "description": "`Mode` config field to select pipeline mode (`text` or `realtime`)", "commit": "6a5fedb" },
@@ -19,10 +20,16 @@
         { "description": "`RealtimeConfig` config field for realtime session configuration", "commit": "6a5fedb" },
         { "description": "RealtimeBridge integration for native voice-to-voice conversations", "commit": "6a5fedb" },
         { "description": "Support for OpenAI Realtime API (~100ms latency)", "commit": "6a5fedb" },
-        { "description": "Support for Gemini Live API (~200ms latency)", "commit": "6a5fedb" }
+        { "description": "Support for Gemini Live API (~200ms latency)", "commit": "6a5fedb" },
+        { "description": "`LLMClient` config field for injecting pre-configured LLM providers", "commit": "13167fb" }
+      ],
+      "changed": [
+        { "description": "Use omnillm-core instead of omnillm for minimal dependencies", "commit": "13167fb" },
+        { "description": "LLM provider creation uses omnillm-core registry (thin providers) by default", "commit": "13167fb" }
       ],
       "dependencies": [
-        { "description": "Update `github.com/plexusone/omnivoice-core` from v0.11.0 to v0.13.0", "commit": "de33b6b" }
+        { "description": "Update `github.com/plexusone/omnivoice-core` from v0.11.0 to v0.13.0", "commit": "de33b6b" },
+        { "description": "Replace `github.com/plexusone/omnillm` with `github.com/plexusone/omnillm-core` v0.17.0", "commit": "13167fb" }
       ]
     },
     {
