@@ -155,7 +155,14 @@ http.HandleFunc("/media-stream", handleMediaStream(cs.Transport()))
 
 ### Voice Gateway (Full-Duplex)
 
-The gateway package provides a complete voice agent solution with bidirectional audio:
+The gateway package provides a complete voice agent solution with bidirectional audio. Two pipeline modes are available:
+
+| Mode | Latency | Description |
+|------|---------|-------------|
+| `text` | 500-1000ms | Traditional STT → LLM → TTS pipeline |
+| `realtime` | 100-200ms | Native voice-to-voice via OpenAI Realtime or Gemini Live |
+
+#### Text Mode (STT → LLM → TTS)
 
 ```go
 import "github.com/plexusone/omni-twilio/omnivoice/gateway"
@@ -175,14 +182,37 @@ gw, _ := gateway.New(gateway.Config{
     LLMSystemPrompt: "You are a helpful voice assistant.",
 })
 
-// Handle incoming calls
-gw.OnCall(func(call *gateway.CallInfo) error {
-    log.Printf("Incoming call from %s", call.From)
-    return nil // Accept the call
+gw.Start(ctx)
+```
+
+#### Realtime Mode (Voice-to-Voice)
+
+```go
+import (
+    "github.com/plexusone/omni-twilio/omnivoice/gateway"
+    coregateway "github.com/plexusone/omnivoice-core/gateway"
+    openaiRealtime "github.com/plexusone/omni-openai/omnivoice/realtime"
+)
+
+gw, _ := gateway.New(gateway.Config{
+    AccountSID:  os.Getenv("TWILIO_ACCOUNT_SID"),
+    AuthToken:   os.Getenv("TWILIO_AUTH_TOKEN"),
+    PhoneNumber: "+15551234567",
+    PublicURL:   "https://your-server.com",
+    ListenAddr:  ":8080",
+
+    // Realtime mode (~100ms latency)
+    Mode:             coregateway.PipelineModeRealtime,
+    RealtimeProvider: openaiRealtime.NewFactory(),
+    RealtimeConfig: &coregateway.RealtimeConfig{
+        Provider:     "openai",
+        APIKey:       os.Getenv("OPENAI_API_KEY"),
+        Model:        "gpt-4o-realtime-preview-2024-12-17",
+        Voice:        "alloy",
+        Instructions: "You are a helpful voice assistant.",
+    },
 })
 
-// Start the gateway
-ctx := context.Background()
 gw.Start(ctx)
 ```
 
@@ -191,7 +221,7 @@ gw.Start(ctx)
 ```
 ┌──────────┐        ┌─────────────────┐        ┌───────────────────┐
 │  Caller  │◄──────►│     Twilio      │◄──────►│   Voice Gateway   │
-│  (PSTN)  │  PSTN  │  Media Streams  │   WS   │   (STT→LLM→TTS)   │
+│  (PSTN)  │  PSTN  │  Media Streams  │   WS   │  (Text/Realtime)  │
 └──────────┘        └─────────────────┘        └───────────────────┘
 ```
 
