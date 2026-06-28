@@ -35,6 +35,7 @@ Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omni
 - 🗣️ **TTS**: Text-to-speech via Twilio's Say verb (Alice, Polly, Google voices)
 - 👂 **STT**: Speech recognition via Gather verb and real-time transcription
 - 💬 **SMS/MMS/RCS**: Send/receive SMS, MMS, and RCS messages via OmniChat provider interface
+- 🧠 **Memory**: Twilio Memory API provider for OmniMemory (semantic search, observations)
 
 ## Installation
 
@@ -48,6 +49,7 @@ go get github.com/plexusone/omni-twilio
 omni-twilio/
 ├── client/           # Exported Twilio REST API client
 ├── omnichat/         # SMS provider for omnichat
+├── omnimemory/       # Memory provider for omnimemory (Twilio Memory API)
 └── omnivoice/
     ├── gateway/      # Full-duplex voice gateway (STT→LLM→TTS)
     ├── callsystem/   # Call handling provider
@@ -123,6 +125,68 @@ p.OnMessage(func(ctx context.Context, msg provider.IncomingMessage) error {
     return nil
 })
 ```
+
+### Memory (OmniMemory)
+
+```go
+import (
+    "github.com/plexusone/omnimemory"
+    "github.com/plexusone/omnimemory/core"
+    _ "github.com/plexusone/omni-twilio/omnimemory" // Register Twilio provider
+)
+
+// Create client with Twilio Memory provider
+client, _ := omnimemory.NewClient(core.ClientConfig{
+    Providers: []core.ProviderConfig{
+        {
+            Name: core.ProviderNameTwilio,
+            Options: map[string]any{
+                "account_sid": os.Getenv("TWILIO_ACCOUNT_SID"),
+                "auth_token":  os.Getenv("TWILIO_AUTH_TOKEN"),
+            },
+        },
+    },
+})
+
+// Add a memory (observation)
+memory, _ := client.Add(ctx, &core.AddRequest{
+    Context: core.Context{
+        TenantID:  "store-id",   // Twilio Store ID
+        SubjectID: "profile-id", // Twilio Profile ID
+    },
+    Type:    core.MemoryTypeObservation,
+    Content: "User prefers dark mode interfaces",
+})
+
+// Semantic search
+results, _ := client.Search(ctx, &core.SearchRequest{
+    Context: core.Context{
+        TenantID:  "store-id",
+        SubjectID: "profile-id",
+    },
+    Query: "interface preferences",
+    Limit: 10,
+})
+
+// Recall relevant memories
+recalled, _ := client.Recall(ctx, &core.RecallRequest{
+    Context: core.Context{
+        TenantID:  "store-id",
+        SubjectID: "profile-id",
+    },
+    Query:      "What does the user prefer?",
+    MaxResults: 5,
+})
+```
+
+**Concept Mapping:**
+
+| OmniMemory | Twilio Memory API |
+|------------|-------------------|
+| TenantID | Store ID |
+| SubjectID | Profile ID |
+| Memory | Observation |
+| Search/Recall | Recall API |
 
 ### Voice Calls (OmniVoice)
 
@@ -377,9 +441,16 @@ for conn := range connCh {
 ### Environment Variables
 
 ```bash
-export TWILIO_ACCOUNT_SID="your-account-sid"
+# Core credentials (required for all features)
+export TWILIO_ACCOUNT_SID="ACxxxxxxxx"
 export TWILIO_AUTH_TOKEN="your-auth-token"
+
+# SMS/MMS/RCS
 export TWILIO_MESSAGING_SERVICE_SID="MGxxxxxxxx"  # Optional: for RCS
+
+# Memory API (for omnimemory provider)
+export TWILIO_MEMORY_STORE_ID="store-id"      # Optional: default store
+export TWILIO_MEMORY_PROFILE_ID="profile-id"  # Optional: default profile
 ```
 
 ### RCS Setup
@@ -453,6 +524,7 @@ Added in v0.4.0:
 
 - [omnivoice-core](https://github.com/plexusone/omnivoice-core) - Voice interfaces
 - [omnichat](https://github.com/plexusone/omnichat) - Chat interfaces
+- [omnimemory](https://github.com/plexusone/omnimemory) - Memory interfaces
 - [elevenlabs-go](https://github.com/plexusone/elevenlabs-go) - ElevenLabs SDK
 
 ## License

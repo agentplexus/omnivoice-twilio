@@ -1,6 +1,6 @@
 # Omni-Twilio
 
-Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omnichat) (SMS) and [OmniVoice](https://github.com/plexusone/omnivoice-core) (voice).
+Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omnichat) (SMS), [OmniVoice](https://github.com/plexusone/omnivoice-core) (voice), and [OmniMemory](https://github.com/plexusone/omnimemory) (memory).
 
 ## Features
 
@@ -12,6 +12,7 @@ Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omni
 - **TTS**: Text-to-speech via Twilio's Say verb (Alice, Polly, Google voices)
 - **STT**: Speech recognition via Gather verb and real-time transcription
 - **SMS/MMS/RCS**: Send/receive messages via OmniChat provider interface
+- **Memory**: Twilio Memory API provider for semantic search and recall
 
 ## Package Structure
 
@@ -19,6 +20,7 @@ Go SDK for Twilio with adapters for [OmniChat](https://github.com/plexusone/omni
 omni-twilio/
 ├── client/           # Exported Twilio REST API client
 ├── omnichat/         # SMS provider for omnichat
+├── omnimemory/       # Memory provider for omnimemory (Twilio Memory API)
 └── omnivoice/
     ├── gateway/      # Full-duplex voice gateway (STT→LLM→TTS)
     ├── callsystem/   # Call handling provider
@@ -63,6 +65,34 @@ provider, _ := callsystem.New(
 
 // Make an outbound call
 call, _ := provider.MakeCall(ctx, "+15559876543", callbackURL)
+```
+
+### Memory (OmniMemory)
+
+```go
+import (
+    "github.com/plexusone/omnimemory"
+    "github.com/plexusone/omnimemory/core"
+    _ "github.com/plexusone/omni-twilio/omnimemory" // Register provider
+)
+
+client, _ := omnimemory.NewClient(core.ClientConfig{
+    Providers: []core.ProviderConfig{
+        {Name: core.ProviderNameTwilio},
+    },
+})
+
+// Add and recall memories
+client.Add(ctx, &core.AddRequest{
+    Context: core.Context{TenantID: "store-id", SubjectID: "profile-id"},
+    Type:    core.MemoryTypeObservation,
+    Content: "User prefers dark mode",
+})
+
+recalled, _ := client.Recall(ctx, &core.RecallRequest{
+    Context: core.Context{TenantID: "store-id", SubjectID: "profile-id"},
+    Query:   "user preferences",
+})
 ```
 
 ## Installation

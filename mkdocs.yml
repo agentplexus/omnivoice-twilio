@@ -1,5 +1,5 @@
 site_name: omni-twilio
-site_description: Go SDK for Twilio with OmniVoice and OmniChat adapters
+site_description: Go SDK for Twilio with OmniVoice, OmniChat, and OmniMemory adapters
 site_url: https://plexusone.github.io/omni-twilio/
 repo_url: https://github.com/plexusone/omni-twilio
 repo_name: plexusone/omni-twilio
@@ -51,6 +51,7 @@ nav:
       - Installation: getting-started/installation.md
   - Guides:
       - Voice Gateway: guides/voice-gateway.md
+      - Memory API: guides/memory.md
       - Twilio Console Setup: guides/twilio-console.md
   - Releases:
       - v0.8.0: releases/v0.8.0.md
