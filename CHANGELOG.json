@@ -7,6 +7,33 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.9.0",
+      "date": "2026-06-28",
+      "highlights": [
+        { "description": "OmniMemory provider for Twilio Memory API" },
+        { "description": "Semantic memory storage and recall with embedding-based search" }
+      ],
+      "added": [
+        { "description": "Twilio Memory provider implementing `core.Provider` interface from omnimemory", "commit": "9d95689" },
+        { "description": "Memory CRUD operations mapping TenantID→Store, SubjectID→Profile", "commit": "9d95689" },
+        { "description": "Semantic search via Twilio Recall API with embedding-based similarity", "commit": "9d95689" }
+      ],
+      "tests": [
+        { "description": "Unit tests for Twilio Memory provider operations", "commit": "3414513" },
+        { "description": "Conformance tests via `providertest.RunAll()` against live Twilio API", "commit": "3414513" }
+      ],
+      "documentation": [
+        { "description": "Add Memory API guide at `docs/guides/memory.md`", "commit": "44a5149" },
+        { "description": "Update README with omnimemory usage examples", "commit": "44a5149" },
+        { "description": "Add Memory API to documentation navigation", "commit": "44a5149" }
+      ],
+      "dependencies": [
+        { "description": "Add `github.com/plexusone/omnimemory` v0.1.0", "commit": "2275640" },
+        { "description": "Update `github.com/plexusone/omnivoice-core` from v0.14.0 to v0.15.0", "commit": "2275640" },
+        { "description": "Update Go version from 1.26.0 to 1.26.4", "commit": "2275640" }
+      ]
+    },
+    {
       "version": "v0.8.0",
       "date": "2026-06-15",
       "highlights": [
