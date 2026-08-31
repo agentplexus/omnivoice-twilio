@@ -8,7 +8,7 @@ require (
 	github.com/plexusone/omnillm-core v0.18.0
 	github.com/plexusone/omnimemory v0.1.0
 	github.com/plexusone/omnivoice-core v0.15.0
-	github.com/twilio/twilio-go v1.30.9
+	github.com/twilio/twilio-go v1.31.0
 )
 
 require (
